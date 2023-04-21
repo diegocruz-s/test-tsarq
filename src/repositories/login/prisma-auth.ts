@@ -2,6 +2,7 @@ import e from "express";
 import { prisma } from "../../database/prisma/prisma";
 import { IAuthBody, IAuthRepository } from "../../interfaces/login/auth";
 import { User } from "../../models/user";
+import { compareSync } from "bcrypt";
 
 export class AuthRepository implements IAuthRepository {
     async login(body: IAuthBody): Promise<Omit<User, 'password'>> {
@@ -15,7 +16,7 @@ export class AuthRepository implements IAuthRepository {
             throw new Error('Authentication invalid!!')
         }
 
-        const checkPwd = user.password === body.password
+        const checkPwd = compareSync(body.password, user.password)
 
         if(!checkPwd) {
             throw new Error('Authentication invalid!')

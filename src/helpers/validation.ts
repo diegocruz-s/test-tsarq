@@ -18,7 +18,7 @@ export async function validation(params: ParamsValidation): Promise<ReturnValida
         const errors: string[] = []
         error.issues.forEach((err: any) => {
             console.log('\nerrMessage:', err.message)
-            errors.push(err.message)
+            errors.push(`${err.path[0]}: ${err.message}`)
         })
         
         return {

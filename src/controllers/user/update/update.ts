@@ -1,19 +1,16 @@
-import { hashSync } from "bcrypt";
-
 import { validation } from "../../../helpers/validation";
 import { HttpRequest } from "../../../interfaces/http/request";
 import { HttpResponse } from "../../../interfaces/http/response";
-import { IBodyResponse, ICreateUserController, ICreateUserRepository } from "../../../interfaces/user/create/create";
-import { User } from "../../../models/user";
+import { IDatasAllowedUpdate, IUpdateResponse, IUpdateUserController, IUpdateUserRepository } from "../../../interfaces/user/update/update";
 import { createUserSchema } from "../../../validators/user/createUser";
 
-export class CreateUserController implements ICreateUserController {
-    repository: ICreateUserRepository
-    constructor(repository: ICreateUserRepository) {
+export class IUpdateController implements IUpdateUserController {
+    repository: IUpdateUserRepository
+    constructor(repository: IUpdateUserRepository) {
         this.repository = repository
     }
 
-    async handle(httpRequest: HttpRequest<Omit<User, 'id'>>): Promise<HttpResponse<IBodyResponse>> {
+    async handle(httpRequest: HttpRequest<IDatasAllowedUpdate>): Promise<HttpResponse<IUpdateResponse>> {
         try {
             const valueValidation = await validation({
                 schema: createUserSchema,
@@ -28,26 +25,17 @@ export class CreateUserController implements ICreateUserController {
                     }
                 }
             }
-
-            const newUser = {
-                ...httpRequest.body!, password: hashSync(httpRequest.body!.password, 12)
-            }
             
-            const user: Omit<User, 'password'> = await this.repository.create(newUser)
-
-            return {
-                statusCode: 200,
-                body: {
-                    user
-                }
-            }
+            const userUpdate = await this.repository.update(httpRequest.params.id)
         } catch (error: any) {
             return {
-                statusCode: 500,
                 body: {
                     errors: [error.message]
-                }
+                },
+                statusCode: 500
             }
         }
+        throw new Error("Method not implemented.");
     }
+
 }

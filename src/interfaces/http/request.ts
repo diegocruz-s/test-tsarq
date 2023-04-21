@@ -1,5 +1,6 @@
 export interface HttpRequest<B> {
     body?: B
-    params?: any 
-
+    params?: {
+        id?: string
+    } 
 }

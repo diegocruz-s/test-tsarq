@@ -7,10 +7,13 @@ export interface IAuthBody {
     password: string
 }
 
+export interface IAuthResponse {
+    user: Omit<User, 'password'>,
+    token: string
+}
+
 export interface IAuthController {
-    handle(httpRequest: HttpRequest<IAuthBody>): Promise<HttpResponse<Omit<User, 'password'> | {
-        error: string
-    }>>
+    handle(httpRequest: HttpRequest<IAuthBody>): Promise<HttpResponse<IAuthResponse | { errors: string[] }>>
 }
 
 export interface IAuthRepository {

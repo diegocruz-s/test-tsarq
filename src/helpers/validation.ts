@@ -1,8 +1,9 @@
+import { RequestHandler, Response } from 'express'
 import { Schema, z, ZodError } from 'zod'
 
 type ParamsValidation = {
     schema: Schema,
-    context: unknown
+    context: unknown,
 }
 
 type ReturnValidation = {

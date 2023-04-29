@@ -11,7 +11,7 @@ export class DeleteUserController implements IDeleteUserController {
 
     async handle(httpRequest: HttpRequest<{}>): Promise<HttpResponse<IDeleteResponse>> {
         try {
-            if(!httpRequest.params?.id) return badRequest(['Id is requires'])
+            if(!httpRequest.params?.id) return badRequest(['Id is required'])
             const { id, userId } = httpRequest.params
 
             if(id !== userId) return badRequest(['You can only delete your user!']) 
@@ -24,7 +24,7 @@ export class DeleteUserController implements IDeleteUserController {
                     message
                 }
             }
-
+ 
         } catch (error: any) {
             return internalError([error.message])
         }

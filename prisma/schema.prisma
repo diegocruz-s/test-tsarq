@@ -17,6 +17,53 @@ model User {
   bios String
   email String @unique
   password String
+  playlists Playlist[]
 
   @@map("users")
+}
+
+model Category {
+  id String @id @default(uuid())
+  name String
+  music Music[]
+
+  @@map("categories")
+}
+
+model Music {
+  id String @id @default(uuid())
+  name String
+  band String
+  duration String
+  createdAt DateTime @default(now())
+  composer String
+  categoryId String
+  year Int
+
+  playlist MusicPlaylist[]
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@map("musics")
+}
+
+model Playlist {
+  id String @id @default(uuid())
+  userId String
+  musics MusicPlaylist[]
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("playlists")
+}
+
+model MusicPlaylist {
+  musicId String
+  playlistId String
+
+  music Music @relation(fields: [musicId], references: [id])
+  playlist Playlist @relation(fields: [playlistId], references: [id])
+
+  @@id([musicId, playlistId])
+
+  @@map("music_playlist")
 }

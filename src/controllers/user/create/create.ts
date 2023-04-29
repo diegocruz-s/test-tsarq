@@ -1,5 +1,6 @@
 import { hashSync } from "bcrypt";
 
+import { badRequest } from "../../../helpers/controllerResponse";
 import { validation } from "../../../helpers/validation";
 import { HttpRequest } from "../../../interfaces/http/request";
 import { HttpResponse } from "../../../interfaces/http/response";
@@ -21,12 +22,7 @@ export class CreateUserController implements ICreateUserController {
             })
 
             if(valueValidation.errors) {
-                return {
-                    statusCode: 400,
-                    body: {
-                        errors: valueValidation.errors
-                    }
-                }
+                return badRequest(valueValidation.errors)
             }
 
             const newUser = {

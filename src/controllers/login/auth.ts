@@ -1,3 +1,4 @@
+import { badRequest } from '../../helpers/controllerResponse'
 import { generateToken } from '../../helpers/generateToken'
 import { validation } from '../../helpers/validation'
 import { HttpRequest } from '../../interfaces/http/request'
@@ -20,12 +21,7 @@ export class LoginController implements IAuthController {
             })
 
             if(valueValidation.errors) {
-                return {
-                    statusCode: 400,
-                    body: {
-                        errors: valueValidation.errors
-                    }
-                }
+                return badRequest(valueValidation.errors)
             }
 
             const email = httpRequest.body?.email

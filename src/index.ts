@@ -1,10 +1,11 @@
+import { PrismaClient } from '@prisma/client'
 import { config } from 'dotenv'
 import express, { Express } from "express"
+import path from 'path'
 
+import { prisma } from './database/prisma/prisma'
 import { routes as routesAuth } from "./routes/auth"
 import { routes as routesUser } from "./routes/user"
-import { PrismaClient } from '@prisma/client'
-import { prisma } from './database/prisma/prisma'
 
 class AppController {
     app: Express
@@ -19,7 +20,9 @@ class AppController {
     }
 
     middlewares (){
+        this.app.use(express.urlencoded({ extended: true }))
         this.app.use(express.json())
+        this.app.use('/user', express.static(path.resolve(__dirname, 'uploads')))
     }
 
     routes () {

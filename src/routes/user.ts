@@ -1,17 +1,17 @@
 import { Router } from 'express'
-
-// Middlewares
-import { checkAuth } from '../helpers/checkAuth'
-
-// Repositories
-import { CreateUserRepository } from '../repositories/user/create/prisma-create-user'
-import { UpdateUserRepository } from '../repositories/user/update/prisma-update-user'
-import { DeleteUserRepository } from '../repositories/user/delete/prisma-delete-user'
+import path from 'path'
 
 // Controllers
 import { CreateUserController } from '../controllers/user/create/create'
-import { UpdateUserController } from '../controllers/user/update/update'
 import { DeleteUserController } from '../controllers/user/delete/delete'
+import { UpdateUserController } from '../controllers/user/update/update'
+// Middlewares
+import { checkAuth } from '../helpers/checkAuth'
+import { musicUpload } from '../helpers/musicUpload'
+// Repositories
+import { CreateUserRepository } from '../repositories/user/create/prisma-create-user'
+import { DeleteUserRepository } from '../repositories/user/delete/prisma-delete-user'
+import { UpdateUserRepository } from '../repositories/user/update/prisma-update-user'
 
 const routes = Router()
 

@@ -28,7 +28,9 @@ export class UpdateUserRepository implements IUpdateUserRepository {
             throw new Error("Error updated user!");
         }
 
-        return updatedUser
+        const { password, ...rest } = updatedUser
+
+        return rest
     }
 
 }

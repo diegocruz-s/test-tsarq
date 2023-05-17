@@ -7,7 +7,6 @@ interface IdUserVerify {
 export const checkAuth: RequestHandler = async (req, res, next): Promise<any> => {
     try {
         const authorization = req.headers.authorization
-
         if(!authorization) {
             return res.status(422).json({
                 errors: ['Access denied!!']
@@ -32,9 +31,9 @@ export const checkAuth: RequestHandler = async (req, res, next): Promise<any> =>
             next()
         }
 
-    } catch (error) {
+    } catch (error: any) {
         return res.status(500).json({
-            errors: ['Access denied!']
+            errors: [error.message]
         })
     }
 }

@@ -48,7 +48,7 @@ export class UpdateUserController implements IUpdateUserController {
             }
 
             const userUpdate = await this.repository.update(id, newDatasUser)
-            
+            console.log('userUpdate:', userUpdate)
             return ok<IUpdateResponse>({
                 user: userUpdate,
                 message: `User updated successfully`

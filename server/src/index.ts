@@ -27,7 +27,7 @@ class AppController {
 
     routes () {
         this.app.use('/auth', routesAuth)
-        this.app.use('/user', routesUser)
+        this.app.use('/user', routesUser) 
     }
 }
  

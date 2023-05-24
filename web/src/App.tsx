@@ -4,9 +4,9 @@ import { login } from "./store/slices/auth/authSlice"
 
 function App() {
 
-  const { datasStorage } = useAppSelector((state: RootState) => state.auth)
+  const { datasStorage, error, loading } = useAppSelector((state: RootState) => state.auth)
   const dispatch = useAppDispatch()
-
+  console.log('err:', error)
   return (
     <div>
       Texto
@@ -16,7 +16,27 @@ function App() {
         )}
       </div>
       <Auth />
-      <button onClick={() => dispatch(login({ email: 'diego@gmail.com', password: 'Diego@123' }))}>Test redux</button>
+        
+      {loading ? (
+          <button 
+            disabled  
+          >
+              Aguarde...
+          </button>
+        ) : (
+          <button 
+            onClick={
+                () => dispatch(login({ email: 'diego@gmail.com', password: 'Diego@123' }))
+            }>
+              Test redux
+          </button>      
+      )}
+      
+      {error ? (
+        <p>{error[0]}</p>
+      ) : (
+        <p>Sem erro</p>
+      )}
     </div>
   )
 }

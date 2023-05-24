@@ -1,10 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { IInitialStates, UserSave } from '../../../interfaces/context/initialStates'
+import { IInitialStates, DatasStorage } from '../../../interfaces/context/initialStates'
 import { loginService } from '../../services/auth/login'
-import { IUser } from '../../../interfaces/user/user'
 import { IAuth } from '../../../interfaces/user/auth'
 
-const datasUser: UserSave = JSON.parse(localStorage.getItem('datasStorage') || '{}')
+const datasUser: DatasStorage = JSON.parse(localStorage.getItem('datasStorage') || '{}')
 
 const initialState: IInitialStates = {
     error: null,
@@ -19,9 +18,9 @@ export const login = createAsyncThunk(
     async (datas: IAuth, thunkAPI) => {
         console.log('slice')
         const res = await loginService(datas)
-        
-        if(res.errors) {
-            return thunkAPI.rejectWithValue(res.errors[0])
+        console.log('resSlice:', res)
+        if('errors' in res) {
+            return thunkAPI.rejectWithValue(res.errors)
         }
 
         return res
@@ -42,11 +41,11 @@ export const authSlice = createSlice({
         builder
             .addCase(login.rejected, (state, { payload }) => {
                 console.log('payload_rejected_login:', payload)
-                state.error = payload
+                state.error = payload as string[]
                 state.loading = false
                 state.success = null
             })
-            .addCase(login.pending, (state, action) => {
+            .addCase(login.pending, (state) => {
                 state.error = null
                 state.loading = true
                 state.success = null
@@ -55,7 +54,7 @@ export const authSlice = createSlice({
                 console.log('payload_success_login:', payload)
                 state.error = null,
                 state.loading = false
-                state.datasStorage = payload
+                state.datasStorage = payload as DatasStorage
                 localStorage.setItem('datasStorage', JSON.stringify(payload))
             })
     }

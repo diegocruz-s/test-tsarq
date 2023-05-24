@@ -1,20 +1,22 @@
 import { Auth } from "./pages/Auth/Auth"
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from "./store/store"
+import { RootState, useAppDispatch, useAppSelector } from "./store/store"
+import { login } from "./store/slices/auth/authSlice"
 
 function App() {
 
-  const { user } = useSelector((state: RootState) => state.auth)
+  const { datasStorage } = useAppSelector((state: RootState) => state.auth)
+  const dispatch = useAppDispatch()
 
   return (
     <div>
       Texto
       <div>
-        {user && (
-          <p>{user.name} - Bios: {user.bios} - Username: {user.username}</p>
+        {datasStorage?.user && (
+          <p>{datasStorage.user.name} - Bios: {datasStorage.user.bios} - Username: {datasStorage.user.username}</p>
         )}
       </div>
       <Auth />
+      <button onClick={() => dispatch(login({ email: 'diego@gmail.com', password: 'Diego@123' }))}>Test redux</button>
     </div>
   )
 }

@@ -1,0 +1,32 @@
+@use '../../../globalStyle//global.scss';
+$widthAuth: 500px;
+$heightAuth: 500px;
+
+.containerAuth {
+    height: 100vh;
+    @extend .flexCenter;
+}
+
+.auth {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    // @extend .flexCenter;
+    width: $widthAuth;
+    height: $heightAuth;
+    background-image: url('../../../assets//back_login.jpg');
+    background-size: cover;
+    backdrop-filter: blur(100px);
+    -webkit-backdrop-filter: blur(100px);
+    border-radius: 8px;
+    // box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+
+    .optionForm {
+        background-color: aliceblue;
+        grid-column: 2;
+    }
+
+    .form {
+        grid-column: 1 / 4;
+    }
+}

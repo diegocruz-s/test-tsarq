@@ -2,4 +2,14 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    color: #db0b0b;
+}
+body {
+    min-height: 100vh;
+    background-color: #d3d3d3;
+}
+.flexCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

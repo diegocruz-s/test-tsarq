@@ -15,6 +15,7 @@ export class LoginController implements IAuthController {
 
     async handle(httpRequest: HttpRequest<IAuthBody>): Promise<HttpResponse<IAuthResponse | { errors: string[] }>> {
         try {
+            console.log('ok controller')
             const valueValidation = await validation({
                 schema: authSchema,
                 context: httpRequest.body!

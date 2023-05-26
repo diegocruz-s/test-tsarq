@@ -1,0 +1,56 @@
+@import '../../../globalStyle/global.scss';
+
+.allComponents {
+    padding: 0 .5em;
+    grid-row: 1 / 4;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .elementForm {
+        width: 80%;
+        border-radius: .5em;
+        border: none;
+        margin-bottom: .3em;
+        background-color: transparent;
+        display: flex;
+        border: 2px solid $colorBorder;
+    
+        .textElement {
+            text-transform: capitalize;
+        }
+    
+        input::placeholder {
+            color: #dadada;
+            font-size: 1em;
+            font-weight: 550;
+            text-transform: capitalize;
+        }
+        input {
+            background-color: transparent;
+            color: #fff;
+            padding: .4em;
+            border: none;
+            height: 100%;
+            width: 100%;
+            border-radius: .5em;
+            font-size: 1.2em;
+            
+            &:focus {
+                border: none;
+                outline: none;
+                color: #fff;
+            }
+        }
+        .div_icon {
+            width: 15%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 2px solid $colorBorder;
+        }
+    
+    }
+
+}

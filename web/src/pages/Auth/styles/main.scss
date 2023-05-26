@@ -1,4 +1,4 @@
-@use '../../../globalStyle//global.scss';
+@import '../../../globalStyle/global.scss';
 $widthAuth: 500px;
 $heightAuth: 500px;
 
@@ -10,11 +10,12 @@ $heightAuth: 500px;
 .auth {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    padding: .5em;
     // @extend .flexCenter;
     width: $widthAuth;
     height: $heightAuth;
-    background-image: url('../../../assets//back_login.jpg');
+    background-image: url('../../../assets/back_login.jpg');
     background-size: cover;
     backdrop-filter: blur(100px);
     -webkit-backdrop-filter: blur(100px);
@@ -22,11 +23,62 @@ $heightAuth: 500px;
     // box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
 
     .optionForm {
-        background-color: aliceblue;
-        grid-column: 2;
+
+        grid-column: 1 / 3;
+        grid-row: 1;
+        display: flex;
+        align-items: center;
+        padding: 0 0 0 .5em;
+
+        button {
+            background-color: transparent;
+            border: none;
+            // margin-right: 1em;
+            padding: 1em;
+            border-radius: .5em;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            cursor: pointer;
+            font-size: 1em;
+            transition: .3s;
+            border-bottom: 2px solid transparent;
+
+            span {
+                color: #fff;
+            }
+
+        }
+
+        .active {
+            border-bottom: 2px solid $colorBorder;
+        }
     }
 
     .form {
         grid-column: 1 / 4;
+        grid-row: 2 / 4;
+    }
+    .elementSubmit {
+        margin-top: 1em;
+        padding: 0 0 0 .5em;
+
+        button {
+            width: 30%;
+            height: 1.5em;
+            border: none;
+            border-radius: .3em;
+            color: #fff;
+            font-size: 1.2em;
+            background-color: transparent;
+            border: 2px solid $colorBorder;
+            cursor: pointer;
+            transition: .3s;
+            
+            &:hover {
+                background-color: $colorBorder;
+                color: #fff;
+            }
+        }
+
     }
 }

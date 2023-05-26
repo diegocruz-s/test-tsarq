@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 import { config } from 'dotenv'
 import express, { Express } from "express"
 import path from 'path'
-
+import cors from 'cors'
 import { prisma } from './database/prisma/prisma'
 import { routes as routesAuth } from "./routes/auth"
 import { routes as routesUser } from "./routes/user"
@@ -23,6 +23,7 @@ class AppController {
         this.app.use(express.urlencoded({ extended: true }))
         this.app.use(express.json())
         this.app.use('/user', express.static(path.resolve(__dirname, 'uploads')))
+        this.app.use(cors())
     }
 
     routes () {

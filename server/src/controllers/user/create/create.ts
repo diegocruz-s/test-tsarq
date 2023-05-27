@@ -34,7 +34,8 @@ export class CreateUserController implements ICreateUserController {
             return {
                 statusCode: 200,
                 body: {
-                    user
+                    user,
+                    message: 'User create succesfully!'
                 }
             }
         } catch (error: any) {

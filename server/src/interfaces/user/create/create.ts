@@ -3,7 +3,8 @@ import { HttpRequest } from "../../http/request";
 import { HttpResponse } from "../../http/response";
 
 export type IBodyResponse = {
-    user: Omit<User, 'password'>
+    user: Omit<User, 'password'>,
+    message: string
 } | {
     errors: string[]
 }

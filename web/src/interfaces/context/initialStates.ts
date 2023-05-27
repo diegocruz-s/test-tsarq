@@ -1,7 +1,9 @@
 import { IUser } from "../user/user"
+
 export interface DatasStorage {
     user: Omit<IUser, 'password'>,
-    token: string
+    token?: string,
+    message?: string,
 }
 
 export interface IInitialStates {

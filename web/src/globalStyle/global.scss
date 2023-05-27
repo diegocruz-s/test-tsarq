@@ -5,7 +5,7 @@ $colorBorder: #87CEEB;
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    color: #fff;
+    color: #ffffff;
 }
 body {
     min-height: 100vh;
@@ -15,4 +15,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.message.error {
+    color: rgb(219, 0, 0);
+}
+.message.success {
+    color: #0f0;
 }

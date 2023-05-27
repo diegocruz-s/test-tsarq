@@ -31,20 +31,20 @@ const FormAuth = ({ valuesForm, datasForm, setDatasForm }: Props) => {
 
   return (
     <div className="allComponents">
-      {valuesForm.map((item) => {
+      {valuesForm.map((item, i) => {
         return (
-            <div className="elementForm">
-              {/* <label className="textElement">{value}</label> */}
-              <div className="div_icon">
-                <item.icon className="icon" />
-              </div>
-              <input
-                  type="text" 
-                  onChange={onHandleChange} 
-                  value={datasForm[item.value]}
-                  name={item.value}
-                  placeholder={item.value}
-              />
+          <div className="elementForm" key={i}>
+            {/* <label className="textElement">{value}</label> */}
+            <div className="div_icon">
+              <item.icon className="icon" />
+            </div>
+            <input
+                type={item.value === 'password' ? 'password' : 'text'} 
+                onChange={onHandleChange} 
+                value={datasForm[item.value]}
+                name={item.value}
+                placeholder={item.value}
+            />
           </div>
          
         );

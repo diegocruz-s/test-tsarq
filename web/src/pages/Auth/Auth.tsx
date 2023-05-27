@@ -4,11 +4,13 @@ import { useState } from 'react'
 import { IUser } from '../../interfaces/user/user'
 import { FormAuth, UserData } from "../../components/formAuth/FormAuth"
 import { datasFormLogin, datasFormRegister } from "../../datas/form/auth";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { login,  } from "../../store/slices/auth/authSlice";
+import { Message } from "../../components/Message/Message";
 
 export const Auth = () => {
-
-
-
+    const dispatch = useAppDispatch()
+    const { error, success } = useAppSelector(state => state.auth)
     const [formLogin, setFormLogin] = useState<boolean>(true)
     const [optionsDatasForm, setOptionsDatasForm] = useState<UserData>(
         {
@@ -59,9 +61,31 @@ export const Auth = () => {
                     )}
 
                     <div className="elementSubmit">
-                        <button type="button">Send</button>
+                        {formLogin ? (
+                            <button 
+                                type="button"
+                                onClick={() => dispatch(login(optionsDatasForm))}
+                            >Send</button>
+                        ) : (
+                            <button type="button">Send</button>
+                        )}
                     </div>
+
                 </div>
+                
+                { error && (
+                    <Message
+                        message={error[0]}
+                        type="error"
+                    />
+                ) }
+                {/* { success && (
+                    <Message
+                        message={success}
+                        type="success"
+                    />
+                ) } */}
+
             </div>
 
             

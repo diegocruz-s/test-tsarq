@@ -12,6 +12,7 @@ export const Auth = () => {
     const dispatch = useAppDispatch()
     const { error, success, loading } = useAppSelector(state => state.auth)
     const [formLogin, setFormLogin] = useState<boolean>(true)
+
     const [optionsDatasForm, setOptionsDatasForm] = useState<UserData>(
         {
             bios: "",
@@ -20,8 +21,17 @@ export const Auth = () => {
             password: "",
             username: "",
         }
-      )
-      console.log('valueDatas', optionsDatasForm)
+    )
+    
+    const resetDatasForm = () => {
+        setOptionsDatasForm({
+            bios: "",
+            email: "",
+            name: "",
+            password: "",
+            username: "",
+        })
+    }
 
     return (
         <div className="containerAuth">
@@ -60,15 +70,17 @@ export const Auth = () => {
                         />
                     )}
 
-                    <div className="elementSubmit">
+                    <div className="btnsAuth">
                         {loading ? (
                             <button 
                                 type="button"
+                                className="btnSubmit"
                                 disabled
                             >Wait...</button>
                         ) : (
                             <button 
                                 type="button"
+                                className="btnSubmit"
                                 onClick={
                                     formLogin 
                                     ? () => dispatch(login(optionsDatasForm)) 
@@ -76,7 +88,11 @@ export const Auth = () => {
                                 }
                             >Send</button>
                         )}
-                        
+                        <button
+                            className="resetDatasForm"
+                            type="button"
+                            onClick={resetDatasForm}
+                        >X</button>
                     </div>
 
                 </div>

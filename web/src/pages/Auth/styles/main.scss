@@ -28,7 +28,6 @@ $heightAuth: 500px;
 
     
         .optionForm {
-    
             grid-column: 1 / 3;
             grid-row: 1;
             display: flex;
@@ -63,12 +62,11 @@ $heightAuth: 500px;
             grid-column: 1 / 4;
             grid-row: 2 / 5;
         }
-        .elementSubmit {
+        .btnsAuth {
             margin-top: 1em;
             padding: 0 0 0 .5em;
-    
+
             button {
-                width: 30%;
                 height: 1.5em;
                 border: none;
                 border-radius: .3em;
@@ -78,9 +76,23 @@ $heightAuth: 500px;
                 border: 2px solid $colorBorder;
                 cursor: pointer;
                 transition: .3s;
+            }
+            .btnSubmit {
+                width: 30%;
                 
                 &:hover {
                     background-color: $colorBorder;
+                    color: #fff;
+                }
+            }
+
+            .resetDatasForm {
+                width: 10%;
+                border-color: #f00;
+                margin-left: 37%;
+                
+                &:hover {
+                    background-color: #f00;
                     color: #fff;
                 }
             }

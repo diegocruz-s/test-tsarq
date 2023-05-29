@@ -1,5 +1,5 @@
 import './globalStyle/global.scss'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Auth } from "./pages/Auth/Auth"
 import { RootState, useAppDispatch, useAppSelector } from "./store/store"
 import { useAuth } from './utils/checkAuth'
@@ -15,7 +15,8 @@ function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path='/auth' element={ auth ? (<Home />) : (<Auth />) }></Route>
+          <Route path='/' element={ auth ? <Home /> : <Navigate to='/auth' /> }></Route>
+          <Route path='/auth' element={ auth ? <Navigate to='/' /> : <Auth /> }></Route>
         </Routes>
       </BrowserRouter>
     </div>

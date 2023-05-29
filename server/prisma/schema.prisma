@@ -18,6 +18,7 @@ model User {
   email     String     @unique
   password  String
   playlists Playlist[]
+  musics UserMusic[]
 
   @@map("users")
 }
@@ -40,6 +41,7 @@ model Music {
   categoryId String
   year       Int
 
+  users UserMusic[]
   playlist MusicPlaylist[]
   category Category        @relation(fields: [categoryId], references: [id])
 
@@ -65,4 +67,16 @@ model MusicPlaylist {
 
   @@id([musicId, playlistId])
   @@map("music_playlist")
+}
+
+model UserMusic {
+  userId    String
+  musicId String
+
+  music    Music    @relation(fields: [musicId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@id([userId, musicId])
+  @@map("user_music")
+
 }

@@ -1,4 +1,3 @@
-import e from "express";
 import { prisma } from "../../database/prisma/prisma";
 import { IAuthBody, IAuthRepository } from "../../interfaces/login/auth";
 import { User } from "../../models/user";

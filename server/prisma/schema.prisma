@@ -33,7 +33,7 @@ model Category {
 
 model Music {
   id         String   @id @default(uuid())
-  name       String
+  name       String   @unique
   band       String
   duration   String
   createdAt  DateTime @default(now())

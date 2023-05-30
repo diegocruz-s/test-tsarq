@@ -36,10 +36,11 @@ model Music {
   name       String   @unique
   band       String
   duration   String
-  createdAt  DateTime @default(now())
+  createdAt  DateTime? @default(now())
   composer   String
   categoryId String
   year       Int
+  url String
 
   users UserMusic[]
   playlist MusicPlaylist[]

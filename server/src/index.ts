@@ -6,6 +6,7 @@ import cors from 'cors'
 import { prisma } from './database/prisma/prisma'
 import { routes as routesAuth } from "./routes/auth"
 import { routes as routesUser } from "./routes/user"
+import { routes as routesMusic } from "./routes/music"
 
 class AppController {
     app: Express
@@ -29,6 +30,7 @@ class AppController {
     routes () {
         this.app.use('/auth', routesAuth)
         this.app.use('/user', routesUser) 
+        this.app.use('/music', routesMusic) 
     }
 }
  

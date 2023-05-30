@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "start:testComp": "ts-node-dev --respawn --transpile-only src/helpers/validation.ts"
+    "start:testComp": "ts-node-dev --respawn --transpile-only ./tewsdf.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,8 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "multer": "^1.4.5-lts.1",
+    "youtube-dl-exec": "^2.4.3",
+    "ytdl-core": "^4.11.4",
     "zod": "^3.21.4"
   },
   "devDependencies": {

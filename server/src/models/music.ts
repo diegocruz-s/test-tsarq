@@ -6,5 +6,16 @@ export interface Music {
     composer: string
     categoryId: string
     year: number
-    createdAt: Date
+    url: string
+    createdAt: Date | null
 }
+
+// id         String   @id @default(uuid())
+//   name       String   @unique
+//   band       String
+//   duration   String
+//   composer   String
+//   categoryId String
+//   year       Int
+//   url String
+//   createdAt  DateTime? @default(now())

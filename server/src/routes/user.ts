@@ -7,7 +7,7 @@ import { DeleteUserController } from '../controllers/user/delete/delete'
 import { UpdateUserController } from '../controllers/user/update/update'
 // Middlewares
 import { checkAuth } from '../helpers/checkAuth'
-import { musicUpload } from '../helpers/musicUpload'
+import { musicUpload } from '../helpers/fileUpload'
 // Repositories
 import { CreateUserRepository } from '../repositories/user/create/prisma-create-user'
 import { DeleteUserRepository } from '../repositories/user/delete/prisma-delete-user'

@@ -6,23 +6,45 @@ import { prisma } from '../../database/prisma/prisma'
 
 export class MusicCreateRepository implements IMusicCreateRepository {
 
-    async create(userId: string, musicDatas: Omit<Music, 'id'>): Promise<Music> {
-
+    async checkExistsMusic(name: string): Promise<Music | false> {
         const existsMusic = await prisma.music.findUnique({
             where: {
-                name: musicDatas.name
+                name: name
             }
-        })
+        })  
 
-        if(existsMusic) {
+        if(!existsMusic) {
+            return false
+        }
+
+        return existsMusic
+    }
+
+    async create(userId: string, musicDatas: Omit<Music, 'id'>): Promise<Music> {
+        const existMusic = await this.checkExistsMusic(musicDatas.name)
+        if(existMusic) {
+
+            const musicIsAlreadyRelatedToTheUser = await prisma.userMusic.findUnique({
+                where: {
+                    userId_musicId: {
+                        musicId: existMusic.id,
+                        userId: userId
+                    }
+                }
+            })
+
+            if(musicIsAlreadyRelatedToTheUser) {
+                return existMusic
+            }
+
             await prisma.userMusic.create({
                 data: {
-                    musicId: existsMusic.id,
+                    musicId: existMusic.id,
                     userId: userId
                 }
             })
 
-            return existsMusic
+            return existMusic
         }
 
         const newMusic = await prisma.music.create({

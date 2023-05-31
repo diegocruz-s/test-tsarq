@@ -1,19 +1,26 @@
-import { randomUUID } from 'crypto'
-import multer from 'multer'
-import path from 'path'
+import fs from "fs"
+import ytdl from "ytdl-core" 
+import path from "path"
+const pathUploadsMusics = path.join(__dirname, '../uploads')
 
-const configs = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, path.resolve(__dirname, '../uploads')),
-    filename: (req, file, cb) => {
-        cb(null, randomUUID() + path.extname(file.originalname))
-    }
-})
+export const musicUpload = async (url: string, name: string): Promise<string> => {
+    return new Promise((resolve, reject) => {
+        const writeStream = fs.createWriteStream(`${pathUploadsMusics}/${name}.mp3`);
+        const music = ytdl(url, { filter: 'audioonly' });
+        console.log('\nAguarde...\n');
 
-const musicUpload = multer({
-    storage: configs,
+        writeStream.on('finish', () => {
+          console.log('Música baixada\n');
+          resolve('Music upload');
+        });
     
-})
+        music.on('error', (err) => {
+          console.log('error_msg:', err);
+          reject(new Error('Error music upload!'));
+        });
+    
+        music.pipe(writeStream); 
 
-export {
-    musicUpload
+    })
+    
 }

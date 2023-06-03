@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "start:testComp": "ts-node-dev --respawn --transpile-only ./tewsdf.ts"
+    "start:testComp": "ts-node-dev --respawn --transpile-only ./src/repositories/music/prisma-readMany.ts"
   },
   "keywords": [],
   "author": "",

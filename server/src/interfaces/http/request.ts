@@ -8,5 +8,8 @@ export interface HttpRequest<B> {
     query?: {
         id?: string
         musicId?: string
+        take: number | string
+        skip: number | string
+        name?: string
     } 
 }

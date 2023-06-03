@@ -29,13 +29,7 @@ export class MusicCreateController implements IMusicCreateController {
             const userId = httpRequest.params?.userId
     
             const infoMusic = await dinamicFieldsMusic(url!)
-            // const errorInfoMusic = Object.entries(infoMusic).map((key, value) => {
-            //     return key !== null ? false : true
-            // })
-            // console.log('errorInfoMusic:', errorInfoMusic)
-            // if(errorInfoMusic.includes(true)) {
-            //     return badRequest(['Errors catch datas music'])
-            // }
+
             if(!infoMusic) {
                 return badRequest(['Errors catch datas music'])
             }
@@ -50,13 +44,15 @@ export class MusicCreateController implements IMusicCreateController {
             const checkExistsMusic = await this.repository.checkExistsMusic(datasMusic.name)
 
             if(!checkExistsMusic) {
+                console.log('Entrou no download')
                 const uploadMusic = await musicUpload(url, infoMusic.name!)
                     .catch(() => new Error('Error upload music!!!'))
 
-                if(!uploadMusic) {
+                console.log('uploadMusic:', uploadMusic)
+                if(typeof uploadMusic !== 'string') {
                     return internalError(['Error music upload!!'])
                 }
-            }
+            } 
 
             const music: Music = await this.repository.create(userId!, datasMusic)
     
@@ -72,4 +68,3 @@ export class MusicCreateController implements IMusicCreateController {
         }
     }
 }
-

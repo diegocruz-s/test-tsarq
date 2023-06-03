@@ -8,9 +8,18 @@ export interface IDatasReturnInfoMusic {
 export async function dinamicFieldsMusic (url: string): Promise<IDatasReturnInfoMusic | false> {
     try {
         const infoMusic = await ytdl.getBasicInfo(url!)
+        
+        const nameFormat = infoMusic.videoDetails.title
+            .replace(' - YouTube', '')
+            .toLowerCase()
+            .replaceAll(' ', '-')
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replaceAll(/[^a-zA-Z0-9\-]+/g, '')
+            .replaceAll('--', '-')
+            .replaceAll('---', '-')
         return {
             duration: infoMusic.videoDetails.lengthSeconds,
-            name: infoMusic.videoDetails.title
+            name: nameFormat
         }
     } catch (error: any) {
         console.log('Error catch infos music', error.message)

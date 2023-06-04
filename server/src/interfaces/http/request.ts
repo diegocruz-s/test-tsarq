@@ -4,6 +4,7 @@ export interface HttpRequest<B> {
         id?: string
         userId?: string
         musicId?: string
+        playlistId?: string
     }
     query?: {
         id?: string

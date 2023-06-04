@@ -19,7 +19,9 @@ routes.post('/', async (req,res) => {
     const createUserRepository = new CreateUserRepository()
     const createUserController = new CreateUserController(createUserRepository)
 
-    const { body, statusCode } = await createUserController.handle(req) 
+    const { body, statusCode } = await createUserController.handle({
+        body: req.body
+    }) 
 
     return res.status(statusCode).json(body)
 

@@ -51,6 +51,7 @@ model Music {
 
 model Playlist {
   id     String          @id @default(uuid())
+  name String @unique
   userId String
   musics MusicPlaylist[]
 

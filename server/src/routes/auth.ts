@@ -8,7 +8,9 @@ routes.post('/', async (req,res) => {
     const loginRepository = new AuthRepository()
     const loginController = new LoginController(loginRepository)
 
-    const { body, statusCode } = await loginController.handle(req) 
+    const { body, statusCode } = await loginController.handle({
+        body: req.body,
+    }) 
 
     return res.status(statusCode).json(body)
 

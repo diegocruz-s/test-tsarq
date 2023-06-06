@@ -3,7 +3,7 @@ import { validation } from '../../../helpers/validation'
 import { HttpRequest } from '../../../interfaces/http/request'
 import { HttpResponse } from '../../../interfaces/http/response'
 import { IMusicReadManyController, IMusicReadManyRepository, IReadManyResponse } from '../../../interfaces/music/readMany/readMany'
-import { QueryMusicSchema } from '../../../validators/music/query'
+import { QueryReadSchema } from '../../../validators/readQuery/query'
 
 export class MusicReadManyController implements IMusicReadManyController {
     repository: IMusicReadManyRepository
@@ -19,7 +19,7 @@ export class MusicReadManyController implements IMusicReadManyController {
                 return badRequest(['Invalid Datas!'])
             } 
             const checkQueries = await validation({
-                schema: QueryMusicSchema,
+                schema: QueryReadSchema,
                 context: httpRequest.query,
             })
             if(checkQueries.errors) {

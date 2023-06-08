@@ -1,6 +1,6 @@
 import { hashSync } from "bcrypt";
 
-import { badRequest, internalError, ok, unprocessableEntity } from "../../../helpers/controllerResponse";
+import { badRequest, internalError, notFound, ok, unprocessableEntity } from "../../../helpers/controllerResponse";
 import { validation } from "../../../helpers/validation";
 import { HttpRequest } from "../../../interfaces/http/request";
 import { HttpResponse } from "../../../interfaces/http/response";
@@ -55,6 +55,7 @@ export class UpdateUserController implements IUpdateUserController {
             })
 
         } catch (error: any) {
+            if(error.message.includes('not found')) return notFound([error.message])
             return internalError([error.message])
         }
 

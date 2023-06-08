@@ -1,4 +1,4 @@
-import { badRequest, internalError } from "../../../helpers/controllerResponse";
+import { badRequest, internalError, notFound } from "../../../helpers/controllerResponse";
 import { HttpRequest } from "../../../interfaces/http/request";
 import { HttpResponse } from "../../../interfaces/http/response";
 import { IDeleteMusicController, IDeleteMusicRepository, IResponseDeleteMusic } from "../../../interfaces/music/delete/delete";
@@ -17,7 +17,7 @@ export class MusicDeleteController implements IDeleteMusicController {
                 return badRequest(['Music not informed!'])
             }
 
-            await this.repository.delete(musicId, userId)
+            const deletedMusic = await this.repository.delete(musicId, userId)
 
             return {
                 body: {
@@ -27,7 +27,8 @@ export class MusicDeleteController implements IDeleteMusicController {
             }
 
         } catch (error: any) {
-            return internalError(error.message)
+            if(error.message.includes('not found')) return notFound([error.message])
+            return internalError([error.message])
         }
         
     }

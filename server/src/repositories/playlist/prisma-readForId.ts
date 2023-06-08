@@ -1,9 +1,10 @@
 import { prisma } from "../../database/prisma/prisma";
-import { IDatasReadForIdRepository, IPlaylistReadForIdRepository } from "../../interfaces/playlist/readForId/readForId";
+import { IDatasReadForIdRepository, IPlaylistReadForIdRepository, IPlaylistReadForIdWithMusics } from "../../interfaces/playlist/readForId/readForId";
+import { Music } from "../../models/music";
 import { Playlist } from "../../models/playlist";
 
 export class PlaylistReadForIdRepository implements IPlaylistReadForIdRepository {
-    async readForId(datas: IDatasReadForIdRepository): Promise<Playlist> {
+    async readForId(datas: IDatasReadForIdRepository): Promise<IPlaylistReadForIdWithMusics> {
         const playlist = await prisma.playlist.findFirst({
             where: {
                 AND: [
@@ -14,11 +15,29 @@ export class PlaylistReadForIdRepository implements IPlaylistReadForIdRepository
                         userId: datas.userId
                     }
                 ]
+            },
+        })
+        if(!playlist) throw new Error('Playlist not found!')
+
+        const musicsDatas = await prisma.musicPlaylist.findMany({
+            where: {
+                playlistId: playlist.id
+            },
+            include: {
+                music: true,
             }
         })
 
-        if(!playlist) throw new Error('Playlist not found!')
+        const musics: Music[] = musicsDatas.map(musicPlaylist => musicPlaylist.music)
         
-        return playlist
+        console.log('datas:', {
+            playlist,
+            musics
+        })
+
+        return {
+            playlist,
+            musics
+        }
     }
 }

@@ -30,6 +30,15 @@ export const unprocessableEntity = (errors: string[]) => {
     }
 }
 
+export const notFound = (errors: string[]) => {
+    return {
+        statusCode: 404,
+        body: {
+            errors
+        }
+    }
+}
+
 export const internalError = (errors: string[]) => {
     return {
         statusCode: 500,

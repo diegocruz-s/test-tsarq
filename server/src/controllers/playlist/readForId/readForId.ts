@@ -1,4 +1,4 @@
-import { badRequest, internalError } from "../../../helpers/controllerResponse";
+import { badRequest, internalError, notFound } from "../../../helpers/controllerResponse";
 import { HttpRequest } from "../../../interfaces/http/request";
 import { HttpResponse } from "../../../interfaces/http/response";
 import { IDatasReadForIdRepository, IPlaylistReadForIdController, IPlaylistReadForIdRepository, IResponsePlaylistReadForId } from "../../../interfaces/playlist/readForId/readForId";
@@ -19,15 +19,17 @@ export class PlaylistReadForIdController implements IPlaylistReadForIdController
                 userId
             } 
 
-            const playlist = await this.repository.readForId(datasReadForId)
+            const datas = await this.repository.readForId(datasReadForId)
 
             return {
                 body: {
-                    playlist
+                    playlist: datas.playlist,
+                    musics: datas.musics
                 },
                 statusCode: 200
             }
         } catch (error: any) {
+            if(error.message.includes('not found')) return notFound([error.message])
             return internalError([error.message])
         }
     }

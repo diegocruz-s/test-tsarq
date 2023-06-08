@@ -1,4 +1,4 @@
-import { badRequest } from '../../helpers/controllerResponse'
+import { badRequest, internalError, notFound } from '../../helpers/controllerResponse'
 import { generateToken } from '../../helpers/generateToken'
 import { validation } from '../../helpers/validation'
 import { HttpRequest } from '../../interfaces/http/request'
@@ -43,12 +43,8 @@ export class LoginController implements IAuthController {
             }
 
         } catch (error: any) {
-            return {
-                body: {
-                    errors: [error.message]
-                },
-                statusCode: 500
-            }
+            if(error.message.includes('not found')) return notFound([error.message])
+            return internalError([error.message])
         }
        
     }

@@ -1,4 +1,4 @@
-import { badRequest, internalError } from "../../../helpers/controllerResponse";
+import { badRequest, internalError, notFound } from "../../../helpers/controllerResponse";
 import { HttpRequest } from "../../../interfaces/http/request";
 import { HttpResponse } from "../../../interfaces/http/response";
 import { IDeletePlaylistController, IDeletePlaylistRepository, IResponseDeletePlaylist } from "../../../interfaces/playlist/delete/delete";
@@ -27,6 +27,7 @@ export class PlaylistDeleteController implements IDeletePlaylistController {
                 statusCode: 200
             }
         } catch (error: any) {
+            if(error.message.includes('not found')) return notFound([error.message])
             return internalError([error.message])
         }
     }

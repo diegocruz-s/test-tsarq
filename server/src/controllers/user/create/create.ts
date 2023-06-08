@@ -1,6 +1,6 @@
 import { hashSync } from "bcrypt";
 
-import { badRequest } from "../../../helpers/controllerResponse";
+import { badRequest, internalError, notFound } from "../../../helpers/controllerResponse";
 import { validation } from "../../../helpers/validation";
 import { HttpRequest } from "../../../interfaces/http/request";
 import { HttpResponse } from "../../../interfaces/http/response";
@@ -39,12 +39,8 @@ export class CreateUserController implements ICreateUserController {
                 }
             }
         } catch (error: any) {
-            return {
-                statusCode: 500,
-                body: {
-                    errors: [error.message]
-                }
-            }
+            if(error.message.includes('not found')) return notFound([error.message])
+            return internalError([error.message])
         }
     }
 }

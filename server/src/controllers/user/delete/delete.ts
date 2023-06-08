@@ -1,4 +1,4 @@
-import { badRequest, internalError } from "../../../helpers/controllerResponse";
+import { badRequest, internalError, notFound } from "../../../helpers/controllerResponse";
 import { HttpRequest } from "../../../interfaces/http/request";
 import { HttpResponse } from "../../../interfaces/http/response";
 import { IDeleteResponse, IDeleteUserController, IDeleteUserRepository } from "../../../interfaces/user/delete/delete";
@@ -26,6 +26,7 @@ export class DeleteUserController implements IDeleteUserController {
             }
  
         } catch (error: any) {
+            if(error.message.includes('not found')) return notFound([error.message])
             return internalError([error.message])
         }
     }

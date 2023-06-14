@@ -13,4 +13,7 @@ export interface HttpRequest<B> {
         skip: number | string
         name?: string
     } 
+    headers?: {
+        range?: string
+    }
 }

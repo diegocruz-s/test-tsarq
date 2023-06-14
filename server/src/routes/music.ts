@@ -1,10 +1,10 @@
-import { Router } from 'express'
+import { RequestHandler, Router } from 'express'
 
 // Controllers
 import { MusicCreateController } from '../controllers/music/create/create'
 
 // Middlewares
-import { checkAuth } from '../helpers/checkAuth'
+import { IdUserVerify, checkAuth } from '../helpers/checkAuth'
 
 // Repositories
 import { MusicCreateRepository } from '../repositories/music/prisma-create'
@@ -12,8 +12,132 @@ import { MusicDeleteRepository } from '../repositories/music/prisma-delete'
 import { MusicDeleteController } from '../controllers/music/delete/delete'
 import { MusicReadManyRepository } from '../repositories/music/prisma-readMany'
 import { MusicReadManyController } from '../controllers/music/readMany/readMany'
+// import { PlayMusicController } from '../controllers/music/playMusic/playMusic'
+import { IResponsePlayMusic } from '../interfaces/music/playMusic/playMusic'
+import { badRequest, internalError, notFound } from '../helpers/controllerResponse'
+import { createReadStream, statSync } from 'fs'
+import rangeParser from 'range-parser'
+import path from 'path'
+import jwt from 'jsonwebtoken'
+import { PlayMusicRepository } from '../repositories/music/prisma-playMusic'
+export interface IdUser {
+    id: string;
+}
 
 const routes = Router()
+
+const readAudioFile: RequestHandler = async (req, res, next) => {
+    try {
+        console.log(req.nameMusic)
+      const musicPath = path.join(__dirname, `../../../server/src/uploads/${req.nameMusic}.mp3`);
+      const musicStat = statSync(musicPath);
+  
+      let range = req.headers.range;
+      if (!range || range === 'bytes=-') {
+        range = 'bytes=0-';
+      }
+  
+      const positions = rangeParser(musicStat.size, range, { combine: true }) as rangeParser.Ranges;
+      const start = positions[0]?.start || 0;
+      const end = positions[0]?.end || musicStat.size - 1;
+      const chunkSize = (end - start) + 1;
+  
+      res.writeHead(206, {
+        'Content-Range': `bytes ${start}-${end}/${musicStat.size}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': chunkSize,
+        'Content-Type': 'audio/mpeg',
+      });
+  
+      const stream = createReadStream(musicPath, { start, end });
+  
+      stream.on('open', () => {
+        stream.pipe(res);
+      });
+  
+      stream.on('error', (err) => {
+        res.end(err);
+      });
+    } catch (error: any) {
+      return internalError([error.message]);
+    }
+  };
+
+  
+// PlayMusic
+routes.get('/:musicId/:userId/:token', async (req, res, next) => {
+    try {
+        const { musicId, token, userId } = req.params!
+
+        const checkToken = jwt.verify(token, process.env.SECRET_TOKEN!) as IdUser | null
+
+        if(!checkToken) return res.status(422).json({
+            errors: ['Token invalid!']
+        })
+
+        if(checkToken.id !== userId) return res.status(422).json({
+            errors: ['Invalid datas!']
+        })
+
+        const playMusicRepository = new PlayMusicRepository()
+        // console.log('ok até aqui')
+        const datasMusic = await playMusicRepository.readMusic({
+            musicId,
+            userId
+        })
+        if(!datasMusic) return res.status(404).json({
+            errors: ['Music not found!']
+        })
+
+        // console.log('datasRepo:', datasMusic)
+        // console.log('musicId:', musicId)
+        // console.log('userId:', userId)
+        // console.log('token:', token)
+
+        const musicPath = path.join(__dirname, `../../../server/src/uploads/${datasMusic.name}.mp3`)
+        // console.log('path:', musicPath)
+        const musicStat = statSync(musicPath)
+
+        let range = req.headers.range;
+        if(!range || range === 'bytes=-') {
+            range = 'bytes=0-'
+        }
+
+        const positions = rangeParser(musicStat.size, range, { combine: true }) as rangeParser.Ranges
+        // console.log('positions:', positions)
+        const start = positions[0]?.start || 0;
+        const end = positions[0]?.end || musicStat.size - 1;
+        const chunkSize = (end - start) + 1;
+
+        console.log('------------------------')
+        console.log('range: ', range)
+        console.log('start: ', start)
+        console.log('end: ', end)
+        console.log('chunkSize: ', chunkSize)
+
+        res.writeHead(206, {
+            'Content-Range': `bytes ${start}-${end}/${musicStat.size}`,
+            'Accept-Ranges': 'bytes',
+            'Content-Length': chunkSize,
+            'Content-Type': 'audio/mpeg', 
+        });
+    
+        const stream = createReadStream(musicPath, { start, end });
+    
+        stream.on('open', () => {
+            stream.pipe(res);
+        });
+        
+        stream.on('error', (err: any) => {
+            res.end('errorStream:', err.message);
+        });
+        
+       
+    } catch (error: any) {
+        return internalError([error.message]) 
+    }
+    
+ })
 
 routes.use(checkAuth)
 
@@ -24,7 +148,7 @@ routes.post('/', async (req,res) => {
     const { body, statusCode } = await createMusicController.handle({
         body: req.body,
         params: {
-            userId: req.userId
+            userId: req.userId 
         }
     }) 
 
@@ -69,6 +193,76 @@ routes.get('/', async (req,res) => {
 
 })
 
+
+
 export {
     routes
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const musicPath = path.join(__dirname, `../../../server/src/uploads/familia-bezerra-podcats-4-temp-11.mp3`)
+//     console.log('path:', musicPath)
+//     const musicStat = statSync(musicPath)
+
+//     let range = req.headers.range;
+//     if(!range || range === 'bytes=-') {
+//         range = 'bytes=0-'
+//     }
+
+//     const positions = rangeParser(musicStat.size, range, { combine: true }) as rangeParser.Ranges
+//     console.log('positions:', positions)
+//     const start = positions[0]?.start || 0;
+//     const end = positions[0]?.end || musicStat.size - 1;
+//     const chunkSize = (end - start) + 1;
+  
+//     console.log('range: ', range)
+//     console.log('start: ', start)
+//     console.log('end: ', end)
+//     console.log('chunkSize: ', chunkSize)
+
+//     res.writeHead(206, {
+//       'Content-Range': `bytes ${start}-${end}/${musicStat.size}`,
+//       'Accept-Ranges': 'bytes',
+//       'Content-Length': chunkSize,
+//       'Content-Type': 'audio/mpeg', 
+//     });
+   
+//     const stream = createReadStream(musicPath, { start, end });
+  
+//     stream.on('open', () => {
+//         stream.pipe(res);
+//     });
+    
+//     stream.on('error', (err) => {
+//         res.end(err);
+//     });

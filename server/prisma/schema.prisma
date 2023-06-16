@@ -72,6 +72,7 @@ model MusicPlaylist {
 }
 
 model UserMusic {
+  // id     String          @id @default(uuid())
   userId    String
   musicId String
 

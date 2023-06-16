@@ -1,0 +1,68 @@
+@import "../../../globalStyle/global.scss";
+
+$widthHeightButton: 70px;
+
+nav {
+  width: 60%;
+  margin: auto;
+  margin-top: 1em;
+  height: 15vh;
+
+  ul {
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    position: relative;
+
+    .active .itemNavbar {
+      background-color: #4a39e7;
+      margin-bottom: 1em;
+      path {
+        fill: #fff;
+      }
+      .name {
+        opacity: 1;
+      }
+    }
+
+    a {
+      &:hover .itemNavbar {
+        background-color: #4a39e7;
+        margin-bottom: 1em;
+        path {
+          fill: #fff;
+        }
+        .name {
+          opacity: 1;
+        }
+      }
+
+      .itemNavbar {
+        @extend .flexCenter;
+        width: $widthHeightButton;
+        height: $widthHeightButton;
+        font-size: 2em;
+        border: 0.07em solid #4a39e7;
+        padding: 0.4em;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: justify-content 0.3s;
+        transition: all 0.3s;
+
+        .icon path {
+          color: #5b4bf0;
+        }
+
+        .name {
+          transition: opacity 0.3s;
+          opacity: 0;
+          position: absolute;
+          bottom: 0.5em;
+          font-size: 0.8em;
+        }
+      }
+    }
+  }
+}

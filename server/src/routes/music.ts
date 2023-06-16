@@ -20,49 +20,13 @@ import rangeParser from 'range-parser'
 import path from 'path'
 import jwt from 'jsonwebtoken'
 import { PlayMusicRepository } from '../repositories/music/prisma-playMusic'
+import { CountMusicRepository } from '../repositories/music/prisma-count'
+import { CountMusicController } from '../controllers/music/count/count'
 export interface IdUser {
     id: string;
 }
 
 const routes = Router()
-
-const readAudioFile: RequestHandler = async (req, res, next) => {
-    try {
-        console.log(req.nameMusic)
-      const musicPath = path.join(__dirname, `../../../server/src/uploads/${req.nameMusic}.mp3`);
-      const musicStat = statSync(musicPath);
-  
-      let range = req.headers.range;
-      if (!range || range === 'bytes=-') {
-        range = 'bytes=0-';
-      }
-  
-      const positions = rangeParser(musicStat.size, range, { combine: true }) as rangeParser.Ranges;
-      const start = positions[0]?.start || 0;
-      const end = positions[0]?.end || musicStat.size - 1;
-      const chunkSize = (end - start) + 1;
-  
-      res.writeHead(206, {
-        'Content-Range': `bytes ${start}-${end}/${musicStat.size}`,
-        'Accept-Ranges': 'bytes',
-        'Content-Length': chunkSize,
-        'Content-Type': 'audio/mpeg',
-      });
-  
-      const stream = createReadStream(musicPath, { start, end });
-  
-      stream.on('open', () => {
-        stream.pipe(res);
-      });
-  
-      stream.on('error', (err) => {
-        res.end(err);
-      });
-    } catch (error: any) {
-      return internalError([error.message]);
-    }
-  };
-
   
 // PlayMusic
 routes.get('/:musicId/:userId/:token', async (req, res, next) => {
@@ -140,6 +104,21 @@ routes.get('/:musicId/:userId/:token', async (req, res, next) => {
  })
 
 routes.use(checkAuth)
+
+routes.get('/count', async (req,res) => {
+    const countMusicRepository = new CountMusicRepository()
+    const countMusicController = new CountMusicController(countMusicRepository)
+
+    const { body, statusCode } = await countMusicController.handle({
+        body: req.body,
+        params: {
+            userId: req.userId,
+        }
+    }) 
+
+    return res.status(statusCode).json(body)
+
+})
 
 routes.post('/', async (req,res) => {
     const createMusicRepository = new MusicCreateRepository()

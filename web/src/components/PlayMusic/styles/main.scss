@@ -1,0 +1,66 @@
+// audio {
+//   position: relative;
+//   // background-color: transparent;
+//   width: 500px;
+// }
+
+// audio::-webkit-media-controls-time-remaining-display,
+// audio::-webkit-media-controls-current-time-display {
+//   position: absolute;
+  
+//   color: #000;
+// }
+// audio::-webkit-media-controls-volume-slider {
+//   position: absolute;
+// }
+// audio::-webkit-media-controls-mute-button {
+//   position: absolute;
+//   bottom: 15px;
+//   right: 150px;
+// }
+
+
+// audio::-webkit-media-controls-time-remaining-display {
+//   bottom: 5px;
+//   right: 135px;
+// }
+// audio::-webkit-media-controls-current-time-display {
+//   bottom: 5px;
+//   right: 175px;
+// }
+
+// audio::-webkit-media-controls-play-button
+// // audio::-webkit-media-controls-seek-back-button,
+// // audio::-webkit-media-controls-seek-forward-button,
+// // audio::-webkit-media-controls-enclosure
+// // audio::-webkit-media-controls-volume-slider 
+// {
+//   display: none;
+// }
+
+// audio::-webkit-progress-bar {
+//     background-color: #ff0303; /* cor de fundo da barra de progresso */
+//   }
+  
+//   audio::-webkit-progress-value {
+//     background-color: #ff0000; /* cor da parte preenchida da barra de progresso */
+//   }
+  
+//   audio::-moz-progress-bar {
+//     background-color: #ff0000; /* cor da parte preenchida da barra de progresso (Firefox) */
+//   }
+  
+//   audio::-ms-fill {
+//     background-color: #ff0000; /* cor da parte preenchida da barra de progresso (Internet Explorer e Edge) */
+//   }
+//   .progress-bar {
+//     width: 100%;
+//     height: 5px;
+//     background-color: #ccc;
+//   }
+  
+//   .progress {
+//     height: 100%;
+//     background-color: #ff0000;
+//     width: 0;
+//   }

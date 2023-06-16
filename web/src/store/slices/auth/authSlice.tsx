@@ -3,6 +3,8 @@ import { IInitialStates, DatasStorage } from '../../../interfaces/context/initia
 import { loginService, registerService } from '../../services/auth/auth'
 import { IAuth } from '../../../interfaces/user/auth'
 import { IUser } from '../../../interfaces/user/user'
+import { api } from '../../../utils/api'
+import { useEffect } from 'react'
 
 const datasUser: DatasStorage = JSON.parse(localStorage.getItem('datasStorage') || '{}')
 
@@ -73,10 +75,12 @@ export const authSlice = createSlice({
                 state.success = null
             })
             .addCase(login.fulfilled, (state, { payload }) => {
+                const payloadDatas = payload as DatasStorage
                 console.log('payload_success_login:', payload)
                 state.error = null,
                 state.loading = false
-                state.datasStorage = payload as DatasStorage
+                state.datasStorage = payloadDatas
+                api.defaults.headers.authorization = `Bearer ${payloadDatas.token}`
                 localStorage.setItem('datasStorage', JSON.stringify(payload))
             })
             // register

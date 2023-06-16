@@ -1,3 +1,4 @@
+import { Music } from "../musics/musics"
 import { IUser } from "../user/user"
 
 export interface DatasStorage {
@@ -11,4 +12,6 @@ export interface IInitialStates {
     error: string[] | null
     success: string | null
     datasStorage?: DatasStorage | null
+    musics?: Music[]
+    music?: Music
 }

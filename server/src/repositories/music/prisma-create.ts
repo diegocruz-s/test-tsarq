@@ -20,6 +20,18 @@ export class MusicCreateRepository implements IMusicCreateRepository {
         return existsMusic
     }
 
+    async checkExistsUser(userId: string): Promise<boolean> {
+        const userExists = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+        if(!userExists) throw new Error('User not found!')
+
+        return true
+
+    }
+
     async create(userId: string, musicDatas: Omit<Music, 'id'>): Promise<Music> {
         const existMusic = await this.checkExistsMusic(musicDatas.name)
         if(existMusic) {

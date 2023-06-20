@@ -19,4 +19,5 @@ export interface IMusicCreateController {
 export interface IMusicCreateRepository {
     create(userId: string, music: Omit<Music, 'id'>): Promise<Music>,
     checkExistsMusic(name: string): Promise<Music | false>,
+    checkExistsUser(userId: string): Promise<boolean>,
 }

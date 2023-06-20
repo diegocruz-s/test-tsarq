@@ -5,6 +5,12 @@ import { MusicPlaylist } from "../../models/music_playlist";
 export class MusicPlaylistCreateRepository implements IMusicPlaylistCreateRepository {
     async create(datas: IDatasMusicPlaylistCreateRepository): Promise<MusicPlaylist> {
         const { userId, musicId, playlistId } = datas
+        const userExists = await prisma.user.findUnique({
+            where: {
+                id: userId
+            }
+        })
+        if(!userExists) throw new Error('User not found!')
 
         const music = await prisma.userMusic.findUnique({
             where: {

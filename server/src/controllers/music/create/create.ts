@@ -26,7 +26,10 @@ export class MusicCreateController implements IMusicCreateController {
             }
     
             const { url } = httpRequest.body!
-            const userId = httpRequest.params?.userId
+            const { userId } = httpRequest.params!
+            if(!userId) return badRequest(['Invalid datas(userId required)!'])
+
+            await this.repository.checkExistsUser(userId)
     
             const infoMusic = await dinamicFieldsMusic(url!)
             console.log('infoMusic:', infoMusic)

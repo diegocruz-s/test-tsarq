@@ -2,7 +2,8 @@ import ytdl from "ytdl-core"
 
 export interface IDatasReturnInfoMusic {
     name: string | null, 
-    duration: string | null
+    duration: string | null,
+    thumbnail: string | null
 }
 
 export async function dinamicFieldsMusic (url: string): Promise<IDatasReturnInfoMusic | false> {
@@ -19,7 +20,8 @@ export async function dinamicFieldsMusic (url: string): Promise<IDatasReturnInfo
             .replaceAll('---', '-')
         return {
             duration: infoMusic.videoDetails.lengthSeconds,
-            name: nameFormat
+            name: nameFormat,
+            thumbnail: infoMusic.videoDetails.thumbnail.thumbnails[0].url
         }
     } catch (error: any) {
         console.log('Error catch infos music', error.message)

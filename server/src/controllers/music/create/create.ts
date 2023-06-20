@@ -29,6 +29,7 @@ export class MusicCreateController implements IMusicCreateController {
             const userId = httpRequest.params?.userId
     
             const infoMusic = await dinamicFieldsMusic(url!)
+            console.log('infoMusic:', infoMusic)
 
             if(!infoMusic) {
                 return badRequest(['Errors catch datas music'])
@@ -39,6 +40,7 @@ export class MusicCreateController implements IMusicCreateController {
                 ...httpRequest.body!,
                 duration: infoMusic.duration!,
                 name: infoMusic.name!,
+                image: infoMusic.thumbnail!
             }
 
             const checkExistsMusic = await this.repository.checkExistsMusic(datasMusic.name)

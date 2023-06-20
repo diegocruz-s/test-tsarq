@@ -5,6 +5,7 @@ import { HttpResponse } from "../../http/response";
 export interface IDatasPlaylistCreate {
     name: string
     userId: string
+    image: string
 } 
 
 export type IResponsePlaylistCreate = {

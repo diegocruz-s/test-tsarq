@@ -10,18 +10,23 @@ import { PlaylistReadRepository } from '../repositories/playlist/prisma-read'
 import { PlaylistReadController } from '../controllers/playlist/read/read'
 import { PlaylistReadForIdRepository } from '../repositories/playlist/prisma-readForId'
 import { PlaylistReadForIdController } from '../controllers/playlist/readForId/readForId'
+import { imageUpload } from '../helpers/fileUpload'
 const routes = Router()
 
 routes.use(checkAuth)
 
-routes.post('/', async (req,res) => {
+routes.post('/', imageUpload.single('image'), async (req,res) => {
     const playlistCreateRepository = new PlaylistCreateRepository()
     const playlistCreateController = new PlaylistCreateController(playlistCreateRepository)
+    console.log('fileName:', req.file?.filename)
 
     const { body, statusCode } = await playlistCreateController.handle({
         body: req.body,
         params: {
             userId: req.userId
+        },
+        file: {
+            datasFile: req.file
         }
     }) 
 

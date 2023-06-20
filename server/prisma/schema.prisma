@@ -11,14 +11,14 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
+  id        String      @id @default(uuid())
   name      String
-  username  String     @unique
+  username  String      @unique
   bios      String
-  email     String     @unique
+  email     String      @unique
   password  String
   playlists Playlist[]
-  musics UserMusic[]
+  musics    UserMusic[]
 
   @@map("users")
 }
@@ -32,17 +32,18 @@ model Category {
 }
 
 model Music {
-  id         String   @id @default(uuid())
-  name       String   @unique
+  id         String    @id @default(uuid())
+  name       String    @unique
   band       String
   duration   String
   createdAt  DateTime? @default(now())
   composer   String
   categoryId String
   year       Int
-  url String
+  url        String
+  image      String 
 
-  users UserMusic[]
+  users    UserMusic[]
   playlist MusicPlaylist[]
   category Category        @relation(fields: [categoryId], references: [id])
 
@@ -51,7 +52,8 @@ model Music {
 
 model Playlist {
   id     String          @id @default(uuid())
-  name String @unique
+  name   String          @unique
+  image      String 
   userId String
   musics MusicPlaylist[]
 
@@ -62,7 +64,7 @@ model Playlist {
 
 model MusicPlaylist {
   musicId    String
-  playlistId String 
+  playlistId String
 
   music    Music    @relation(fields: [musicId], references: [id])
   playlist Playlist @relation(fields: [playlistId], references: [id])
@@ -73,13 +75,12 @@ model MusicPlaylist {
 
 model UserMusic {
   // id     String          @id @default(uuid())
-  userId    String
+  userId  String
   musicId String
 
-  music    Music    @relation(fields: [musicId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+  music Music @relation(fields: [musicId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
 
   @@id([userId, musicId])
   @@map("user_music")
-
 }

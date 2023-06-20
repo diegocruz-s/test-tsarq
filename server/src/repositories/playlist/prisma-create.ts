@@ -15,7 +15,8 @@ export class PlaylistCreateRepository implements IPlaylistCreateRepository {
         const playlist = await prisma.playlist.create({
             data: {
                 userId: data.userId,
-                name: data.name
+                name: data.name,
+                image: data.image
             }
         })
 

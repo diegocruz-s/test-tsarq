@@ -8,6 +8,7 @@ export interface Music {
     year: number
     url: string
     createdAt: Date | null
+    image: string
 }
 
 // id         String   @id @default(uuid())

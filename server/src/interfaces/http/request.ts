@@ -1,3 +1,4 @@
+import { Express } from 'express'
 export interface HttpRequest<B> {
     body?: B
     params?: {
@@ -16,4 +17,8 @@ export interface HttpRequest<B> {
     headers?: {
         range?: string
     }
+    file?: {
+        datasFile: Express.Multer.File | undefined
+    }
 }
+

@@ -15,19 +15,24 @@ export class PlaylistCreateController implements IPlaylistCreateController {
     async handle(httpRequest: HttpRequest<Omit<Playlist, "id">>): Promise<HttpResponse<IResponsePlaylistCreate>> {
         try {
             const { userId } = httpRequest.params!
+            const { datasFile } = httpRequest.file!
             if(!userId) return badRequest(['Value \'userId\' is not found!']) 
-
+            
             const validationDatas = await validation({
                 schema: PlaylistCreateSchema,
                 context: httpRequest.body
             })
 
             if(validationDatas.errors) return badRequest(validationDatas.errors)
+            if(!datasFile) return badRequest(['Image required!'])
+
             
             const datasCreatePlaylist: IDatasPlaylistCreate = {
                 name: httpRequest.body!.name,
-                userId
+                userId,
+                image: datasFile.filename
             }
+
 
             const playlist = await this.repository.create(datasCreatePlaylist)
 

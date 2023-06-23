@@ -14,4 +14,5 @@ export interface IInitialStates {
     datasStorage?: DatasStorage | null
     musics?: Music[]
     music?: Music
+    count?: number
 }

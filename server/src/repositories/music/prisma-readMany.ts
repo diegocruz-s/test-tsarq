@@ -8,9 +8,19 @@ export class MusicReadManyRepository implements IMusicReadManyRepository {
             where: {
                 userId,
                 music: name && name?.length >= 1 ? {
-                    name: {
-                        contains: name
-                    }
+                    OR: [
+                        {
+                            name: {
+                                contains: name
+                            },
+                        },
+                        {
+                            band: {
+                                contains: name
+                            }
+                        }
+                    ]
+                    
                 } : undefined
             },
             include: {
@@ -19,13 +29,11 @@ export class MusicReadManyRepository implements IMusicReadManyRepository {
             skip,
             take
         })
-        // console.log('datas::', datas)
 
         const musics = datas.map(userMusic => {
             const { musicId, userId, music } = userMusic  
             return music
         })
-        // console.log('musics::', musics)
 
         return musics
     } 

@@ -8,4 +8,11 @@ export interface Music {
     year: number
     url: string
     createdAt: Date | null
+    image: string
+}
+
+export interface IDatasGetMusics {
+    take: number
+    skip: number
+    name: string
 }

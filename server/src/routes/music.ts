@@ -31,14 +31,14 @@ const routes = Router()
 // PlayMusic
 routes.get('/:musicId/:userId/:token', async (req, res, next) => {
     try {
+        console.log('foi')
         const { musicId, token, userId } = req.params!
+        console.log(musicId, token, userId)
 
         const checkToken = jwt.verify(token, process.env.SECRET_TOKEN!) as IdUser | null
-
         if(!checkToken) return res.status(422).json({
             errors: ['Token invalid!']
         })
-
         if(checkToken.id !== userId) return res.status(422).json({
             errors: ['Invalid datas!']
         })

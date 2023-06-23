@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../store/store';
-import { useAuth } from '../../utils/checkAuth';
+// import { useAuth } from '../../utils/checkAuth';
 import './styles/main.scss'
 
 export const PlayMusic = () => {
@@ -9,11 +9,13 @@ export const PlayMusic = () => {
   const [pause, setPause] = useState(false)
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
-  const [musicId, setMusicId] = useState('3744fc6d-2677-4632-b182-5c0093267df8')
+  const [musicId, setMusicId] = useState('2abb8151-2fff-452c-b7f1-0cf7a3697b73')
   const audioSource = `http://localhost:3000/music/${musicId}/${user.id}/${token}`;
 
   useEffect(() => {
-    audioPlayerRef.current!.addEventListener('ended', () => console.log('acabou'));
+    if(audioPlayerRef.current) {
+      audioPlayerRef.current.addEventListener('ended', () => console.log('acabou'));
+    }
     
     if (!token) {
       return;
@@ -30,8 +32,11 @@ export const PlayMusic = () => {
           throw new Error('Failed to fetch audio');
         }
   
-        audioPlayerRef.current!.src = audioSource;
-        audioPlayerRef.current!.load();
+        if(audioPlayerRef.current) {
+          audioPlayerRef.current.src = audioSource;
+          audioPlayerRef.current.load();
+        }
+        
       })
       .catch(error => {
         console.log('Error:', error);
@@ -41,10 +46,13 @@ export const PlayMusic = () => {
       });
   
     return () => {
-      audioPlayerRef.current!.src = '';
-      audioPlayerRef.current!.load();
-      setLoading(false);
-      audioPlayerRef.current!.removeEventListener('ended', () => console.log('acabou'));
+      if(audioPlayerRef.current) {
+        audioPlayerRef.current.src = '';
+        audioPlayerRef.current.load();
+        setLoading(false);
+        audioPlayerRef.current.removeEventListener('ended', () => console.log('acabou'));
+      }
+      
     };
   }, [audioSource, token]);
   
@@ -61,17 +69,17 @@ export const PlayMusic = () => {
     <div className="audio-player">
 
         <button
-          onClick={() => setMusicId('3744fc6d-2677-4632-b182-5c0093267df8')}
+          onClick={() => setMusicId('2abb8151-2fff-452c-b7f1-0cf7a3697b73')}
         >
           #
         </button>
         <button
-          onClick={() => setMusicId('c21b52a5-31ca-4844-8fd2-9195a39d8209')}
+          onClick={() => setMusicId('b8e734c7-61c8-4583-a074-93b69fbfa338')}
         >
           #
         </button>
         <button
-          onClick={() => setMusicId('5df2139a-20e0-4c46-aaa4-c9c888bac00a')}
+          onClick={() => setMusicId('e7f6ea62-146d-453f-add9-d30cb645141b')}
         >
           #
         </button>

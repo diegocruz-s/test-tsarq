@@ -1,0 +1,76 @@
+.musics {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 50%;
+    // flex-wrap: wrap;
+    text-align: center;
+    margin: auto;
+    margin-top: 2em;
+    position: relative;
+
+    a {
+        text-decoration: none;
+    }
+  
+    .music {
+      width: $sizeMusic;
+      height: $sizeMusic;
+      background-color: $colorComponents;
+      box-shadow: 3px 3px 3px rgba(0,0,0, .4);
+      padding: .5em;
+      border-radius: .3em;
+      margin: auto;
+      margin-bottom: 2em;
+      position: relative;
+  
+      &:hover {
+          .deleteMusic {
+              display: block;
+          }
+      } 
+  
+      img {
+        width: 100%;
+      }
+  
+      h4 {
+        font-size: 1.05em;
+        text-transform: capitalize;
+      }
+      p {
+          font-weight: bold;
+      }
+  
+      .textsMusic {
+          height: 42%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+      }
+      .deleteMusic {
+          position: absolute;
+          display: none;
+          bottom: 0;
+          right: 2px;
+          font-size: 1.25em;
+          
+          svg {
+              transition: .3s all;
+              cursor: pointer;
+              
+              path {
+                  transition: .3s all;
+                  color: rgb(252, 96, 96);
+              }
+              
+              &:hover {
+                  path {
+                      color: #f00;
+                  }
+              }
+          }
+      }
+    }
+  
+    
+  }

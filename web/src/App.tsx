@@ -6,6 +6,7 @@ import { useAuth } from './utils/checkAuth'
 import { Home } from './pages/Home/Home'
 import { PlayMusic } from './components/PlayMusic/PlayMusic'
 import { Navbar } from './components/Navbar/Navbar'
+import { MusicCreate } from './pages/MusicCreate/MusicCreate'
 
 function App() {
 
@@ -30,7 +31,8 @@ function App() {
         <Routes>
           <Route path='/' element={ auth ? <Home /> : <Navigate to='/auth' /> }></Route>
           <Route path='/auth' element={ auth ? <Navigate to='/' /> : <Auth /> }></Route>
-          <Route path='/musics' element={ auth ? <PlayMusic /> : <Navigate to='/' /> } />
+          <Route path='/music' element={ auth ? <MusicCreate /> : <Navigate to='/auth' /> }></Route>
+          <Route path='/music/:id' element={ auth ? <PlayMusic /> : <Navigate to='/' /> } />
           <Route path='/musicsabc' element={ auth ? (
             <p>Funcionou!!!</p>
           ) : <Navigate to='/' /> } />

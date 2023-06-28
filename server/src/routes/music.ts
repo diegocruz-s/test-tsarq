@@ -124,8 +124,13 @@ routes.post('/', async (req,res) => {
     const createMusicRepository = new MusicCreateRepository()
     const createMusicController = new MusicCreateController(createMusicRepository)
 
+    console.log(req.body)
+
     const { body, statusCode } = await createMusicController.handle({
-        body: req.body,
+        body: {
+            ...req.body,
+            year: Number(req.body.year || '')
+        },
         params: {
             userId: req.userId 
         }

@@ -11,7 +11,7 @@ export class MusicReadManyRepository implements IMusicReadManyRepository {
                     OR: [
                         {
                             name: {
-                                contains: name
+                                contains: name.replaceAll(' ', '-')
                             },
                         },
                         {

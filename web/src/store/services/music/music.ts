@@ -1,5 +1,40 @@
-import { IDatasGetMusics } from "../../../interfaces/musics/musics";
+import { IDatasGetMusics, Music } from "../../../interfaces/musics/musics";
 import { api } from "../../../utils/api";
+
+export const createMusicFetch = async (datas: Partial<Music>) => {
+    try {
+        const newMusic = await api.post('/music', datas)
+            .then(response => {
+                return response.data
+            })
+            .catch((err) => {
+                return err.response.data
+                
+            })
+
+        return newMusic
+    } catch (error: any) {
+        return [error.message]
+    }
+}
+
+export const deleteMusicFetch = async(id: string) => {
+    try {
+        const message = await api.delete(`/music/${id}`)
+            .then(response => {
+                return response.data
+            })
+            .catch((err) => {
+                return err.response.data
+                
+            })
+
+        return message
+
+    } catch (error: any) {
+        return [error.message]
+    }
+}
 
 export const getMusicsFetch = async (datas: IDatasGetMusics) => {
     try {

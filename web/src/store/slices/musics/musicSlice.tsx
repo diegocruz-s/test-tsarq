@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IInitialStates } from "../../../interfaces/context/initialStates";
 import { IDatasGetMusics, Music } from '../../../interfaces/musics/musics'
-import { countMusicsFetch, getMusicsFetch } from "../../services/music/music";
+import { countMusicsFetch, createMusicFetch, deleteMusicFetch, getMusicsFetch } from "../../services/music/music";
 
 const initialState: IInitialStates = {
     error: null,
@@ -11,6 +11,35 @@ const initialState: IInitialStates = {
     music: undefined,
     count: undefined,
 }
+
+export const createMusic = createAsyncThunk(
+    'music/createMusic',
+    async (datas: Partial<Music>, thunkAPI) => {
+        resetStates()
+        const response = await createMusicFetch(datas)
+        if('errors' in response) {
+            thunkAPI.rejectWithValue(response.errors)
+        }
+
+        return response
+    }
+)
+
+export const deleteMusic = createAsyncThunk(
+    'music/deleteMusic',
+    async (id: string, thunkAPI) => {
+        resetStates()
+        const response = await deleteMusicFetch(id)
+        if('errors' in response) {
+            return thunkAPI.rejectWithValue(response.errors)
+        }
+
+        return {
+            response,
+            id
+        }
+    }
+)
 
 export const getMusics = createAsyncThunk(
     'music/getMusics',
@@ -87,6 +116,48 @@ export const musicSlice = createSlice({
             if(payloadDatas) {
                 state.count = payloadDatas.count
 
+            }
+        })
+        .addCase(deleteMusic.rejected, (state, { payload }) => {
+            state.error = payload as string[]
+            state.loading = false
+            state.success = null
+        })
+        .addCase(deleteMusic.pending, (state) => {
+            state.error = null
+            state.loading = true
+            state.success = null
+        })
+        .addCase(deleteMusic.fulfilled, (state, { payload }) => {
+            const payloadDatas = payload
+            console.log('payload:', payload.response)
+            state.error = null,
+            state.loading = false
+            if(payloadDatas && state.musics) {
+                const filterMusics = state.musics.filter(music => music.id !== payloadDatas.id)
+                state.musics = filterMusics
+
+                state.success = payloadDatas.response.message
+            }
+        })
+        .addCase(createMusic.rejected, (state, { payload }) => {
+            state.error = payload as string[]
+            state.loading = false
+            state.success = null
+        })
+        .addCase(createMusic.pending, (state) => {
+            state.error = null
+            state.loading = true
+            state.success = null
+        })
+        .addCase(createMusic.fulfilled, (state, { payload }) => {
+            const payloadDatas = payload
+            console.log('payload:', payload.response)
+            state.error = null,
+            state.loading = false
+            if(payloadDatas) {
+                state.musics?.unshift(payloadDatas.music)
+                state.success = payloadDatas.message
             }
         })
     }

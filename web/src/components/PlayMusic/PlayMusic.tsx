@@ -2,14 +2,21 @@ import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../store/store';
 // import { useAuth } from '../../utils/checkAuth';
 import './styles/main.scss'
+import { Music } from '../../interfaces/musics/musics';
+import { useParams } from 'react-router-dom';
 
-export const PlayMusic = () => {
-  const [loading, setLoading] = useState(false)
+type IDatasPlayMusic = {
+  musics?: Music[]
+}
+
+export const PlayMusic = (play: IDatasPlayMusic) => {
   const { token, user } = useAppSelector(state => state.auth.datasStorage)!;
+  const { id } = useParams()
+  const [loading, setLoading] = useState(false)
   const [pause, setPause] = useState(false)
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
-  const [musicId, setMusicId] = useState('2abb8151-2fff-452c-b7f1-0cf7a3697b73')
+  const [musicId, setMusicId] = useState(id)
   const audioSource = `http://localhost:3000/music/${musicId}/${user.id}/${token}`;
 
   useEffect(() => {
@@ -68,7 +75,7 @@ export const PlayMusic = () => {
   return (
     <div className="audio-player">
 
-        <button
+        {/* <button
           onClick={() => setMusicId('2abb8151-2fff-452c-b7f1-0cf7a3697b73')}
         >
           #
@@ -82,7 +89,7 @@ export const PlayMusic = () => {
           onClick={() => setMusicId('e7f6ea62-146d-453f-add9-d30cb645141b')}
         >
           #
-        </button>
+        </button> */}
 
         <button onClick={pauseAndPlayMusic}>P</button>
         <audio ref={audioPlayerRef} controls controlsList='nodowload' preload="none" />

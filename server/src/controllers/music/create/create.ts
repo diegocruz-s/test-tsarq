@@ -22,6 +22,7 @@ export class MusicCreateController implements IMusicCreateController {
             })
     
             if(validationDatas.errors) {
+                console.log(validationDatas.errors)
                 return badRequest(validationDatas.errors)
             }
     
@@ -45,6 +46,7 @@ export class MusicCreateController implements IMusicCreateController {
                 name: infoMusic.name!,
                 image: infoMusic.thumbnail!
             }
+            console.log('datasMusic:', datasMusic)
 
             const checkExistsMusic = await this.repository.checkExistsMusic(datasMusic.name)
 

@@ -1,0 +1,27 @@
+.pagination {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    padding: .5em;
+    margin-bottom: 1em;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .5em;
+    cursor: pointer;
+
+    .elementPag {
+        width: 30px;
+        height: 30px;
+        display: grid;
+        place-items: center;
+        border: 2px solid $colorComponents;
+        border-radius: .5em;
+        transition: .3s all;
+
+        &:hover {
+            background-color: $colorComponents;
+        }
+    }
+
+}

@@ -1,40 +1,9 @@
 @import '../../../globalStyle/global.scss';
-$sizeImage: 150px;
 
 .playlists {
     @extend .flexCenter;
-    // flex-direction: column;
     flex-wrap: wrap;
     width: 50%;
     gap: 3em;
     margin: auto;
-
-    .playlist a {
-        @extend .flexCenter;
-        text-decoration: none;
-        padding: 1em;
-        border: 2px solid #fff;
-        border-radius: 1em;
-        background-color: #c0c0c0;
-        box-shadow: 1px 1px 1px 1px rgba(0,0,0,.3);
-
-        img {
-            width: $sizeImage;
-            height: $sizeImage;
-            border-radius: .5em;
-        }
-
-        .texts {
-            @extend .flexCenter;
-            flex-direction: column;
-            gap: 1em;
-            margin-left: 1em;
-            font-size: 1.5em;
-
-            p {
-            }
-        }
-
-    }
-    
 }

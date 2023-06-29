@@ -1,0 +1,57 @@
+@import '../../../globalStyle/global.scss';
+$sizeImage: 150px;
+
+.playlist {
+    position: relative;
+    transition: .2s all;
+
+    .optionsPlaylist {
+        display: none;
+        position: absolute;
+        top: .5em;
+        right: .5em;
+        font-size: 1.1em;
+        cursor: pointer;
+    }
+    &:hover {
+        scale: 1.1;
+        .optionsPlaylist {
+            display: block
+        }
+    }
+    .chooseOptions {
+        position: absolute;
+        background-color: aliceblue;
+        top: 2em;
+        right: 1em;
+        width: 30%;
+        padding: .3em;
+    }
+
+    a {
+        @extend .flexCenter;
+        text-decoration: none;
+        padding: 1em;
+        border: 2px solid #fff;
+        border-radius: 1em;
+        background-color: #c0c0c0;
+        box-shadow: 1px 1px 1px 1px rgba(0,0,0,.3);
+
+        img {
+            width: $sizeImage;
+            height: $sizeImage;
+            border-radius: .5em;
+        }
+
+        .texts {
+            @extend .flexCenter;
+            flex-direction: column;
+            gap: 1em;
+            margin-left: 1em;
+            font-size: 1.5em;
+        }
+
+    }
+    
+    
+}

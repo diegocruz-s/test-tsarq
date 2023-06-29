@@ -30,7 +30,7 @@ export const deleteMusic = createAsyncThunk(
     async (id: string, thunkAPI) => {
         resetStates()
         const response = await deleteMusicFetch(id)
-        if('errors' in response) {
+        if ('errors' in response) {
             return thunkAPI.rejectWithValue(response.errors)
         }
 

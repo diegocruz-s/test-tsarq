@@ -7,6 +7,7 @@ import { Home } from './pages/Home/Home'
 import { PlayMusic } from './components/PlayMusic/PlayMusic'
 import { Navbar } from './components/Navbar/Navbar'
 import { MusicCreate } from './pages/MusicCreate/MusicCreate'
+import { Playlists } from './pages/Playlists/Playlists'
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
           <Route path='/musicsabc' element={ auth ? (
             <p>Funcionou!!!</p>
           ) : <Navigate to='/' /> } />
+          <Route path='/playlists' element={ auth ? <Playlists /> : <Navigate to='/' /> }></Route>
         </Routes>
       </BrowserRouter>
     </div>

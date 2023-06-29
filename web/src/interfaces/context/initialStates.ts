@@ -1,4 +1,5 @@
 import { Music } from "../musics/musics"
+import { Playlist } from "../playlist/playlist"
 import { IUser } from "../user/user"
 
 export interface DatasStorage {
@@ -15,4 +16,6 @@ export interface IInitialStates {
     musics?: Music[]
     music?: Music
     count?: number
+    playlist?: Playlist
+    playlists?: Playlist[]
 }

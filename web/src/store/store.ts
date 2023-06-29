@@ -3,11 +3,13 @@ import { configureStore } from '@reduxjs/toolkit'
 import authReducer from './slices/auth/authSlice'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import musicSlice from './slices/musics/musicSlice';
+import playlistSlice from './slices/playlists/playlistSlice';
 
 export const store = configureStore({
     reducer: {
         auth: authReducer,
-        music: musicSlice
+        music: musicSlice,
+        playlist: playlistSlice
     }
 })
 

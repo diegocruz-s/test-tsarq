@@ -15,7 +15,10 @@ export class PlaylistReadRepository implements IPlaylistReadRepository {
                             contains: name
                         } : undefined
                     }
-                ],
+                ],                
+            },
+            include: {
+                _count: true
             },
             skip,
             take

@@ -19,6 +19,6 @@ export const datasNavbar = [
     {
         name: 'Playlists',
         icon: BsMusicPlayerFill,
-        redirect: '/playlist',
+        redirect: '/playlists',
     },
 ]

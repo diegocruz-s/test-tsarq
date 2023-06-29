@@ -27,6 +27,7 @@ class AppController {
         this.app.use(express.urlencoded({ extended: true }))
         this.app.use(express.json())
         this.app.use('/user', express.static(path.resolve(__dirname, 'uploads')))
+        this.app.use('/uploads', express.static(path.resolve(__dirname, 'uploads')))
     }
 
     routes () {

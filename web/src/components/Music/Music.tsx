@@ -4,6 +4,7 @@ import { Music } from "../../interfaces/musics/musics";
 import { BsTrash } from "react-icons/bs";
 import { deleteMusic } from "../../store/slices/musics/musicSlice";
 import { useAppDispatch } from "../../store/store";
+import { Link } from "react-router-dom";
 
 interface ITypeMusicItem {
   music: Music;
@@ -43,14 +44,14 @@ export const MusicItem = ({ music }: ITypeMusicItem) => {
         className="music"
         onMouseLeave={() => setShowPrompt(false)}
       >
-        <a href={`/music/${music.id}`}>
+        <Link to={`/music/${music.id}`}>
           <img src={music.image} alt="Imagem da música" />
           <div className="textsMusic">
             <h4>{formatStrMusic(music.name)}</h4>
             <p>{formatStrMusic(music.band)}</p>
             <p>{formatDurationMusic(music.duration)}</p>
           </div>
-        </a>
+        </Link>
 
         <div
           className="deleteMusic"

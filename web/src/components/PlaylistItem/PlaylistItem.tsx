@@ -5,6 +5,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { deletePlaylist, editPlaylist } from '../../store/slices/playlists/playlistSlice'
 import { Message } from '../Message/Message'
+import { Link } from 'react-router-dom'
 const imagesSaves = 'http://localhost:3000/uploads/images'
 
 interface IPlaylist {
@@ -30,7 +31,7 @@ export const PlaylistItem = ({ playlist }: IPlaylist) => {
                 setShowFormEdit(false)
             }}
         >
-            <a href={`/playlists/${playlist.id}`} className="linkPlaylist">
+            <Link to={`/playlists/${playlist.id}`} className="linkPlaylist">
                 <img src={`${imagesSaves}/${playlist.image}`} alt="" />
                 <div className="texts">
                 <p>{playlist.name}</p>
@@ -40,7 +41,7 @@ export const PlaylistItem = ({ playlist }: IPlaylist) => {
                     : playlist._count!.musics + ' music'}
                 </p>
                 </div>
-            </a>
+            </Link>
             <div
                 className="optionsPlaylist"
                 onClick={() => setShowOptions(!showOptions)}

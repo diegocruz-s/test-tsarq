@@ -8,6 +8,7 @@ import { PlayMusic } from './components/PlayMusic/PlayMusic'
 import { Navbar } from './components/Navbar/Navbar'
 import { MusicCreate } from './pages/MusicCreate/MusicCreate'
 import { Playlists } from './pages/Playlists/Playlists'
+import { Playlist } from './pages/Playlist/Playlist'
 
 function App() {
 
@@ -30,14 +31,15 @@ function App() {
 
         <a href="/musics">Musics</a>
         <Routes>
-          <Route path='/' element={ auth ? <Home /> : <Navigate to='/auth' /> }></Route>
-          <Route path='/auth' element={ auth ? <Navigate to='/' /> : <Auth /> }></Route>
-          <Route path='/music' element={ auth ? <MusicCreate /> : <Navigate to='/auth' /> }></Route>
+          <Route path='/' element={ auth ? <Home /> : <Navigate to='/auth' /> } />
+          <Route path='/auth' element={ auth ? <Navigate to='/' /> : <Auth /> } />
+          <Route path='/music' element={ auth ? <MusicCreate /> : <Navigate to='/auth' /> } />
           <Route path='/music/:id' element={ auth ? <PlayMusic /> : <Navigate to='/' /> } />
           <Route path='/musicsabc' element={ auth ? (
             <p>Funcionou!!!</p>
           ) : <Navigate to='/' /> } />
-          <Route path='/playlists' element={ auth ? <Playlists /> : <Navigate to='/' /> }></Route>
+          <Route path='/playlists' element={ auth ? <Playlists /> : <Navigate to='/' /> } />
+          <Route path='/playlists/:id' element={ auth ? <Playlist /> : <Navigate to='/' />} />
         </Routes>
       </BrowserRouter>
     </div>

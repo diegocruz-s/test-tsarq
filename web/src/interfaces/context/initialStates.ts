@@ -16,6 +16,6 @@ export interface IInitialStates {
     musics?: Music[]
     music?: Music
     count?: number
-    playlist?: Playlist
+    datasPlay?: { playlist: Playlist, musics: Music[] }
     playlists?: Playlist[]
 }

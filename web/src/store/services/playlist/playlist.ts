@@ -55,3 +55,18 @@ export const editPlaylistFetch = async (datas: IDatasEditPlaylist) => {
         return [error.message]
     }
 }
+
+export const readPlaylistFetch = async (id: string) => {
+    try {
+        const datas = await api.get(`/playlist/${id}`)
+            .then(res => {
+                return res.data
+            })
+            .catch(err => {
+                return err.response.data
+            })
+        return datas
+    } catch (error: any) {
+        return [error.message]
+    }
+}

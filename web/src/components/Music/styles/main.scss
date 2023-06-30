@@ -1,0 +1,116 @@
+@import "../../../globalStyle/global.scss";
+
+.music {
+    a {
+        text-decoration: none;
+    }
+
+    width: $sizeMusic;
+    height: $sizeMusic;
+    background-color: $colorComponents;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
+    padding: 0.5em;
+    border-radius: 0.3em;
+    margin: auto;
+    margin-bottom: 2em;
+    position: relative;
+    transition: 0.2s all;
+
+    &:hover {
+        scale: 1.1;
+        .deleteMusic {
+            display: block;
+        }
+    }
+
+    img {
+        width: 100%;
+    }
+
+    h4 {
+        font-size: 1.05em;
+        text-transform: capitalize;
+    }
+    p {
+        font-weight: bold;
+    }
+
+    .textsMusic {
+        height: 42%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    .deleteMusic {
+        position: absolute;
+        display: none;
+        bottom: 0;
+        right: 2px;
+        font-size: 1.25em;
+
+        svg {
+            transition: 0.3s all;
+            cursor: pointer;
+
+            path {
+                transition: 0.3s all;
+                color: rgb(252, 96, 96);
+            }
+
+            &:hover {
+                path {
+                    color: #f00;
+                }
+            }
+        }
+    }
+
+    .promptDeleteMusic {
+        width: $sizeMusic;
+        height: $sizeMusic;
+        background-color: rgba(0, 0, 0, 0.8);
+        border: 1px solid #fff;
+        padding: 2em;
+        border-radius: 0.5em;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-size: 1.1em;
+
+        .deleteMusicText {
+            font-weight: bold;
+            margin-bottom: 0.8em;
+        }
+
+        .nameDeleteMusic {
+            text-transform: capitalize;
+            margin-bottom: 0.8em;
+        }
+
+        .options {
+            @extend .flexCenter;
+            justify-content: space-evenly;
+
+            button {
+                @extend .flexCenter;
+                width: calc($sizeMusic / 8);
+                height: calc($sizeMusic / 8);
+                border: 1px solid #fff;
+                border-radius: 0.5em;
+                background-color: transparent;
+                padding: 0.8em;
+                font-size: 1.1em;
+                cursor: pointer;
+                transition: 0.3s all;
+            }
+            .Y:hover {
+                background-color: #fd2a2a;
+                border-color: #fd2a2a;
+            }
+            .N:hover {
+                background-color: #2e2afd;
+                border-color: #2e2afd;
+            }
+        }
+    }
+}

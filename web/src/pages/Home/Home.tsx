@@ -15,11 +15,11 @@ import { IDatasGetMusics } from "../../interfaces/musics/musics";
 import { Message } from "../../components/Message/Message";
 // Icons
 import { BsSearch, BsTrash } from "react-icons/bs";
+import { MusicItem } from "../../components/Music/Music";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
   const { musics, count, success } = useAppSelector((state) => state.music)!;
-  const [showPrompt, setShowPrompt] = useState<false | { id: string, name: string }>(false);
   const [datasGetMusics, setDatasGetMusics] = useState<IDatasGetMusics>({
     take: 10,
     skip: 0,
@@ -27,7 +27,6 @@ export const Home = () => {
   });
   const [pags, setPags] = useState(0);
 
-  console.log("showPrompt:", showPrompt);
 
   useEffect(() => {
     (async () => {
@@ -55,28 +54,6 @@ export const Home = () => {
       }
     }
   }, [count]);
-
-  const formatStrMusic = (name: string, completed?: boolean) => {
-    let nameFormat = name;
-    if (name.length > 25 && !completed) {
-      nameFormat = name.substring(0, 25) + "...";
-    }
-
-    nameFormat = nameFormat.replaceAll("-", " ").replaceAll("--", " ");
-
-    return nameFormat;
-  }
-
-  const formatDurationMusic = (time: string) => {
-    const rawTime = Number(time)
-
-    const min = Math.floor(rawTime / 60)
-    const sec = Math.floor(rawTime % 60)
-
-    const duration = `${min}:${sec < 10 ? '0' + String(sec) : String(sec)}`
-
-    return duration
-  }
 
   {
     console.log("success", success);
@@ -106,41 +83,14 @@ export const Home = () => {
       <div className="musics">
         {musics && musics.length > 0 ? (
           musics.map((music) => (
-            <div>
-              <div
-                className="music"
-                key={music.id}
-              >
-                <a  href={`/music/${music.id}`}>
-                  <img src={music.image} alt="Imagem da música" />
-                  <div className="textsMusic">
-                    <h4>{formatStrMusic(music.name)}</h4>
-                    <p>{formatStrMusic(music.band)}</p>
-                    <p>
-                      {formatDurationMusic(music.duration)}
-                    </p>
-                  </div>
-                </a>
-                
-
-                <div
-                  className="deleteMusic"
-                  onClick={() => {
-                    setShowPrompt({
-                      id: music.id,
-                      name: music.name,
-                    });
-                  }}
-                >
-                  <BsTrash />
-                </div>
-              </div>
-            </div>
+            <MusicItem music={music} />
           ))
         ) : (
           <p>Músicas não encontradas...</p>
         )}
       </div>
+
+      
       <div className="pagination">
         {!datasGetMusics.name &&
           pags > 1 &&
@@ -164,34 +114,7 @@ export const Home = () => {
           })}
       </div>
 
-      {showPrompt && (
-        <div className="promptDeleteMusic">
-          <p className="deleteMusic">Delete Music:</p>
-          <p className="nameDeleteMusic">
-            {formatStrMusic(showPrompt.name, true)}?
-          </p>
-          <div className="options">
-            <button
-              className="Y"
-              onClick={() => {
-                // setShowPrompt(false)
-                dispatch(deleteMusic(showPrompt.id));
-                setShowPrompt(false);
-              }}
-            >
-              Y
-            </button>
-            <button
-              onClick={() => {
-                setShowPrompt(false);
-              }}
-              className="N"
-            >
-              N
-            </button>
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 };

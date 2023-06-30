@@ -3,7 +3,7 @@ export interface Playlist {
     name: string
     userId: string
     image: string
-    _count: {
+    _count?: {
         musics: number
     }
 }

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IInitialStates } from "../../../interfaces/context/initialStates";
-import { readPlaylistsFetch } from '../../services/playlist/playlist'
+import { IDatasEditPlaylist, deletePlaylistFetch, editPlaylistFetch, readPlaylistsFetch } from '../../services/playlist/playlist'
 import { Playlist } from "../../../interfaces/playlist/playlist";
 
 const initialState: IInitialStates = {
@@ -25,6 +25,33 @@ export const readPlaylists = createAsyncThunk(
         }
 
         return playlists
+    }
+)
+
+export const deletePlaylist = createAsyncThunk(
+    'playlist/delete',
+    async (id: string, thunkAPI) => {
+        const deleted = await deletePlaylistFetch(id)
+        if('errors' in deleted) {
+            return thunkAPI.rejectWithValue(deleted.errors)
+        }
+
+        return {
+            deleted,
+            id
+        }
+    }
+)
+
+export const editPlaylist = createAsyncThunk(
+    'playlist/edit',
+    async (datas: IDatasEditPlaylist, thunkAPI) => {
+        const edited = await editPlaylistFetch(datas)
+        if('errors' in edited) {
+            return thunkAPI.rejectWithValue(edited.errors)
+        }
+
+        return edited
     }
 )
 
@@ -56,6 +83,51 @@ export const playlistSlice = createSlice({
             state.loading = false
             if(payloadDatas) {
                 state.playlists = payloadDatas
+            }
+        })
+        .addCase(deletePlaylist.rejected, (state, { payload }) => {
+            state.error = payload as string[]
+            state.loading = false
+            state.success = null
+        })
+        .addCase(deletePlaylist.pending, (state) => {
+            state.error = null
+            state.loading = true
+            state.success = null
+        })
+        .addCase(deletePlaylist.fulfilled, (state, { payload }) => {
+            const payloadDatas = payload.deleted as { message: string }
+            state.error = null,
+            state.loading = false
+            if(payloadDatas && state.playlists) {
+                const newPlaylists = state.playlists.filter(playlist => playlist.id != payload.id)
+                state.playlists = newPlaylists
+                state.success = payloadDatas.message
+            }
+        })
+        .addCase(editPlaylist.rejected, (state, { payload }) => {
+            state.error = payload as string[]
+            state.loading = false
+            state.success = null
+        })
+        .addCase(editPlaylist.pending, (state) => {
+            state.error = null
+            state.loading = true
+            state.success = null
+        })
+        .addCase(editPlaylist.fulfilled, (state, { payload }) => {
+            const payloadDatas = payload.playlist as Playlist
+            state.error = null,
+            state.loading = false
+            console.log('payloadDatas', payloadDatas)
+            if(payloadDatas && state.playlists) {
+                state.playlists.map(playlist => {
+                    if (playlist.id === payloadDatas.id) {
+                        console.log('Foi')
+                        playlist.name = payloadDatas.name
+                    }
+                })
+                state.success = payload.message
             }
         })
     }

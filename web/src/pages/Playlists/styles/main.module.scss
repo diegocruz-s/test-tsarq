@@ -1,52 +1,124 @@
 @import '../../../globalStyle/global.scss';
+.playlistsPage {
+    width: 50%;
+    margin: auto;
 
+    .addMusic {
+        width: 100%;
+        margin: auto;
+        text-align: end;
+        margin-bottom: .8em;
+        font-size: 1.5em;
+        cursor: pointer;
+
+        svg path {
+            transition: .2s all;
+            color: rgb(235, 235, 235);
+        }
+
+        &:hover {
+            svg path {
+                color: #fff;
+            }
+        }
+    }
+    .formCreate {
+        background-color: rgba(0,0,0,.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+
+        .componentesForm {
+            display: flex;
+            flex-direction: column;
+
+            input {
+                padding: .7em;
+                border-radius: .5em;
+                border: 1px solid #fff;
+                margin-bottom: 1em;
+                background-color: transparent;
+                color: #fff;
+
+                &:focus {
+                    outline: none;
+                }
+
+                &::placeholder {
+                    color: #fff;
+                }
+            }
+
+            button {
+                padding: .3em;
+                border-radius: .5em;
+                border: 1px solid #fff;
+                background-color: #c4c4c4;
+                font-size: 1.2em;
+                // color: #e7e7e7;
+                transition: .2s all;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #fff;
+                    color: #c4c4c4;
+                }
+            }
+        }
+    }
+}
 .playlists {
     @extend .flexCenter;
     flex-wrap: wrap;
-    width: 50%;
+    width: 100%;
     gap: 3em;
     margin: auto;
 }
 
 @media (max-width: 1800px) {
-    .playlists  {
+    .playlistsPage, .addMusic  {
         width: 60%;
     }
 }
 @media (max-width: 1550px) {
-    .playlists  {
+    .playlistsPage, .addMusic  {
         width: 55%;
     }
 }
 @media (max-width: 1400px) {
-    .playlists  {
+    .playlistsPage, .addMusic  {
         width: 60%;
     }
 }
 @media (max-width: 1350px) {
-    .playlists  {
+    .playlistsPage, .addMusic  {
         width: 65%;
     }
 }
 @media (max-width: 1250px) {
-    .playlists  {
+    .playlistsPage, .addMusic  {
         width: 70%;
     }
 }
 @media (max-width: 1100px) {
-    .playlists  {
+    .playlistsPage, .addMusic  {
         grid-template-columns: 1fr 1fr;
         width: 60%;
     }
 }
 @media (max-width: 870px) {
-    .playlists  {
+    .playlistsPage, .addMusic  {
         grid-template-columns: 1fr 1fr;
         width: 70%;
     }
 }
 @media (max-width: 750px) {
-    .playlists  {
+    .playlistsPage, .addMusic  {
         grid-template-columns: 1fr;
         width: 70%;
     }

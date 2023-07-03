@@ -4,6 +4,7 @@ import { IDatasReadPlaylist, readPlaylists } from "../../store/slices/playlists/
 import { useAppDispatch, useAppSelector } from "../../store/store"
 import { PlaylistItem } from '../../components/PlaylistItem/PlaylistItem'
 import { Message } from '../../components/Message/Message'
+import { BsFillPlusCircleFill } from 'react-icons/bs'
 
 export const Playlists = () => {
     const dispatch = useAppDispatch()
@@ -13,6 +14,7 @@ export const Playlists = () => {
         skip: 0,
         take: 10,
     })
+    const [showFormCreate, setShowFormCreate] = useState(false)
     const { playlists, loading } = useAppSelector(state => state.playlist)!
 
     useEffect(() => {
@@ -25,7 +27,14 @@ export const Playlists = () => {
 
     return (
         <div className={styles.playlistsPage}>
-            Your Playlists
+            <div className={styles.addMusic}>
+                <div className={styles.iconPlus}>
+                    <BsFillPlusCircleFill 
+                        onClick={(() => setShowFormCreate(!showFormCreate))}
+                    />
+                </div>
+            </div>
+
             {success && <Message message={success} type='success' />}
             {error && <Message message={error[0]} type='error' />}
 
@@ -37,6 +46,28 @@ export const Playlists = () => {
                 </div>
             ) : (
                 <p>Nenhuma playlist encontrada</p>
+            )}
+            
+            {showFormCreate && (
+                <div className={styles.formCreate}
+                    onClick={(e) => {
+                        const clickedElement = e.target
+                        if(clickedElement instanceof HTMLElement) {
+                            const className = clickedElement.className
+                            
+                            if(className.includes('formCreate')) setShowFormCreate(false)
+                        }
+                    }}
+                >
+                    <div className={styles.componentesForm}>
+                        <input type="text" placeholder='Name playlist' />
+                        <input type="file" />
+                        <button type='submit'>
+                            Create
+                        </button>
+                    </div>
+                    
+                </div>
             )}
         </div>
     )

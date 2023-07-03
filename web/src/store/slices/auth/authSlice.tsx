@@ -4,7 +4,6 @@ import { loginService, registerService } from '../../services/auth/auth'
 import { IAuth } from '../../../interfaces/user/auth'
 import { IUser } from '../../../interfaces/user/user'
 import { api } from '../../../utils/api'
-import { useEffect } from 'react'
 
 const datasUser: DatasStorage = JSON.parse(localStorage.getItem('datasStorage') || '{}')
 
@@ -99,7 +98,7 @@ export const authSlice = createSlice({
                 console.log('payload_success_register:', payload)
                 state.error = null,
                 state.loading = false
-                if('message' in payload!) {
+                if(payload && 'message' in payload) {
                     state.success = payload?.message
                 }
             })

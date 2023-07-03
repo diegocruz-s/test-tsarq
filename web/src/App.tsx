@@ -1,7 +1,7 @@
 import './globalStyle/global.scss'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Auth } from "./pages/Auth/Auth"
-import { RootState, useAppDispatch, useAppSelector } from "./store/store"
+import { useAppSelector } from "./store/store"
 import { useAuth } from './utils/checkAuth'
 import { Home } from './pages/Home/Home'
 import { PlayMusic } from './components/PlayMusic/PlayMusic'
@@ -14,7 +14,6 @@ function App() {
 
   const { auth, loading: loadingAuth } = useAuth()
   const { error } = useAppSelector(state => state.auth)
-  const dispatch = useAppDispatch()
   console.log('err:', error)
   console.log('auth:', auth)
 

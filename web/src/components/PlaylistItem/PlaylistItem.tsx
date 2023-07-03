@@ -1,10 +1,9 @@
-import './styles/main.scss'
+import styles from './styles/main.module.scss'
 import { useState, useRef, useEffect } from 'react'
 import { Playlist } from '../../interfaces/playlist/playlist'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { deletePlaylist, editPlaylist } from '../../store/slices/playlists/playlistSlice'
-import { Message } from '../Message/Message'
 import { Link } from 'react-router-dom'
 const imagesSaves = 'http://localhost:3000/uploads/images'
 
@@ -13,7 +12,7 @@ interface IPlaylist {
 }
 export const PlaylistItem = ({ playlist }: IPlaylist) => {
     const dispatch = useAppDispatch()
-    const { loading, success } = useAppSelector(state => state.playlist)!
+    const { loading, success } = useAppSelector(state => state.playlist)
     const [showOptions, setShowOptions] = useState(false)
     const [showFormEdit, setShowFormEdit] = useState(false)
     const refInput = useRef<HTMLInputElement  | null>(null)
@@ -24,35 +23,38 @@ export const PlaylistItem = ({ playlist }: IPlaylist) => {
 
     return (
         <div 
-            className="playlist" 
+            className={styles.playlist} 
             key={playlist.id}
             onMouseLeave={() => {
                 setShowOptions(false)
                 setShowFormEdit(false)
             }}
         >
-            <Link to={`/playlists/${playlist.id}`} className="linkPlaylist">
+            <Link to={`/playlists/${playlist.id}`} className={styles.linkPlaylist}>
                 <img src={`${imagesSaves}/${playlist.image}`} alt="" />
-                <div className="texts">
+                <div className={styles.texts}>
                 <p>{playlist.name}</p>
-                <p>
-                    {playlist._count!.musics > 1
-                    ? playlist._count!.musics + ' musics'
-                    : playlist._count!.musics + ' music'}
-                </p>
+                {playlist._count && (
+                    <p>
+                        {playlist._count.musics > 1
+                        ? playlist._count.musics + ' musics'
+                        : playlist._count.musics + ' music'}
+                    </p>
+                )}
+                
                 </div>
             </Link>
             <div
-                className="optionsPlaylist"
+                className={styles.optionsPlaylist}
                 onClick={() => setShowOptions(!showOptions)}
             >
                 <BsThreeDotsVertical />
             </div>
             {(showOptions && !showFormEdit) && (
-                <div className="chooseOptions">
+                <div className={styles.chooseOptions}>
 
                     <div 
-                        className="edit"
+                        className={styles.edit}
                         onClick={() => {
                             setShowOptions(false)
                             setShowFormEdit(true)
@@ -62,7 +64,7 @@ export const PlaylistItem = ({ playlist }: IPlaylist) => {
                     </div>
 
                     <div 
-                        className="delete"
+                        className={styles.delete}
                         onClick={() => {
                             dispatch(deletePlaylist(playlist.id))
                         }}
@@ -74,7 +76,7 @@ export const PlaylistItem = ({ playlist }: IPlaylist) => {
             )}
 
             {showFormEdit && (
-                <div className="formEditPlaylist">
+                <div className={styles.formEditPlaylist}>
                     <input ref={refInput} type="text" placeholder='Name' />
                     {loading ? (
                         <button 

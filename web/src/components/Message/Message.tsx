@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './styles/main.scss'
+import styles from './styles/main.module.scss'
 import { resetStates } from '../../store/slices/auth/authSlice'
 interface Props {
     type: string
@@ -18,7 +18,7 @@ export const Message = (props: Props) => {
         <>
             {showMsg && (
                 <div 
-                    className={`message ${props.type === 'error' ? 'error' : 'success'}`}
+                className={`${styles.message} ${props.type === 'error' ? styles.error : styles.success}`}
                 >
                     <p>{props.message}</p>
                 </div>

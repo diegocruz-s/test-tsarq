@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '../../store/store';
 // import { useAuth } from '../../utils/checkAuth';
-import './styles/main.scss'
+import styles from './styles/main.module.scss'
 import { Music } from '../../interfaces/musics/musics';
 import { useParams } from 'react-router-dom';
 
 type IDatasPlayMusic = {
-  musics?: Music[]
+  music?: Music
 }
 
 export const PlayMusic = (play: IDatasPlayMusic) => {
@@ -73,7 +73,7 @@ export const PlayMusic = (play: IDatasPlayMusic) => {
   }
 
   return (
-    <div className="audio-player">
+    <div className={styles.audio_player}>
 
         {/* <button
           onClick={() => setMusicId('2abb8151-2fff-452c-b7f1-0cf7a3697b73')}

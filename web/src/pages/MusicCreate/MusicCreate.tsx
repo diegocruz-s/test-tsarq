@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './styles/main.scss'
+import styles from './styles/main.module.scss'
 import { Music } from '../../interfaces/musics/musics'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { createMusic } from '../../store/slices/musics/musicSlice'
@@ -8,7 +8,7 @@ import { Message } from '../../components/Message/Message'
 export const MusicCreate = () => {
 
     const dispatch = useAppDispatch()
-    const { loading, success } = useAppSelector(state => state.music)!
+    const { loading, success } = useAppSelector(state => state.music)
 
     const [datasMusic, setDatasMusic] = useState<Partial<Music>>({
         url: '',

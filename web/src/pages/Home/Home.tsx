@@ -1,12 +1,11 @@
 // Scss
-import "./styles/main.scss";
+import styles from "./styles/main.module.scss";
 // React
 import { useEffect, useState } from "react";
 // Store
 import {
   getMusics,
   countMusics,
-  deleteMusic,
 } from "../../store/slices/musics/musicSlice";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 // Interface
@@ -14,19 +13,18 @@ import { IDatasGetMusics } from "../../interfaces/musics/musics";
 // Components
 import { Message } from "../../components/Message/Message";
 // Icons
-import { BsSearch, BsTrash } from "react-icons/bs";
+import { BsSearch } from "react-icons/bs";
 import { MusicItem } from "../../components/Music/Music";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
-  const { musics, count, success } = useAppSelector((state) => state.music)!;
+  const { musics, count, success } = useAppSelector((state) => state.music)
   const [datasGetMusics, setDatasGetMusics] = useState<IDatasGetMusics>({
     take: 10,
     skip: 0,
     name: "",
   });
   const [pags, setPags] = useState(0);
-
 
   useEffect(() => {
     (async () => {
@@ -59,8 +57,8 @@ export const Home = () => {
     console.log("success", success);
   }
   return (
-    <div className="home">
-      <div className="filter">
+    <div className={styles.home}>
+      <div className={styles.filter}>
         <label>
           <BsSearch />
 
@@ -80,10 +78,10 @@ export const Home = () => {
 
       {success && <Message message={success} type="success" />}
 
-      <div className="musics">
+      <div className={styles.musics}>
         {musics && musics.length > 0 ? (
           musics.map((music) => (
-            <MusicItem music={music} />
+            <MusicItem key={music.id} music={music} />
           ))
         ) : (
           <p>Músicas não encontradas...</p>
@@ -91,14 +89,14 @@ export const Home = () => {
       </div>
 
       
-      <div className="pagination">
+      <div className={styles.pagination}>
         {!datasGetMusics.name &&
           pags > 1 &&
           Array.from({ length: pags }).map((_, i) => {
             return (
               <div
                 key={i}
-                className="elementPag"
+                className={styles.elementPag}
                 onClick={() => {
                   const take = (i + 1) * 10;
                   setDatasGetMusics({

@@ -1,4 +1,4 @@
-import "./styles/main.scss";
+import styles from "./styles/main.module.scss";
 import { useState } from "react";
 import { Music } from "../../interfaces/musics/musics";
 import { BsTrash } from "react-icons/bs";
@@ -39,14 +39,14 @@ export const MusicItem = ({ music }: ITypeMusicItem) => {
   };
 
   return (
-    <div className="musicContainer" key={music.id}>
+    <div className={styles.musicContainer} key={music.id}>
       <div 
-        className="music"
+        className={styles.music}
         onMouseLeave={() => setShowPrompt(false)}
       >
         <Link to={`/music/${music.id}`}>
           <img src={music.image} alt="Imagem da música" />
-          <div className="textsMusic">
+          <div className={styles.textsMusic}>
             <h4>{formatStrMusic(music.name)}</h4>
             <p>{formatStrMusic(music.band)}</p>
             <p>{formatDurationMusic(music.duration)}</p>
@@ -54,7 +54,7 @@ export const MusicItem = ({ music }: ITypeMusicItem) => {
         </Link>
 
         <div
-          className="deleteMusic"
+          className={styles.deleteMusic}
           onClick={() => {
             setShowPrompt({
               id: music.id,
@@ -66,14 +66,14 @@ export const MusicItem = ({ music }: ITypeMusicItem) => {
         </div>
 
         {showPrompt && (
-        <div className="promptDeleteMusic">
-          <p className="deleteMusicText">Delete Music:</p>
-          <p className="nameDeleteMusic">
+        <div className={styles.promptDeleteMusic}>
+          <p className={styles.deleteMusicText}>Delete Music:</p>
+          <p className={styles.nameDeleteMusic}>
             {formatStrMusic(showPrompt.name, true)}?
           </p>
-          <div className="options">
+          <div className={styles.options}>
             <button
-              className="Y"
+              className={styles.Y}
               onClick={() => {
                 // setShowPrompt(false)
                 dispatch(deleteMusic(showPrompt.id));
@@ -86,7 +86,7 @@ export const MusicItem = ({ music }: ITypeMusicItem) => {
               onClick={() => {
                 setShowPrompt(false);
               }}
-              className="N"
+              className={styles.N}
             >
               N
             </button>

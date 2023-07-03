@@ -1,7 +1,5 @@
-import "./styles/main.scss";
-import { motion } from 'framer-motion'
+import styles from "./styles/main.module.scss";
 import { useState } from 'react'
-import { IUser } from '../../interfaces/user/user'
 import { FormAuth, UserData } from "../../components/formAuth/FormAuth"
 import { datasFormLogin, datasFormRegister } from "../../datas/form/auth";
 import { useAppDispatch, useAppSelector } from "../../store/store";
@@ -34,14 +32,14 @@ export const Auth = () => {
     }
 
     return (
-        <div className="containerAuth">
-            <div className="auth">
-                <div className="optionForm">
+        <div className={styles.containerAuth}>
+            <div className={styles.auth}>
+                <div className={styles.optionForm}>
                     <button 
                         onClick={() => {
                             setFormLogin(true)
                         }}
-                        className={formLogin ? 'active' : ''}
+                        className={formLogin ? styles.active : ''}
                     >
                         <span>Sign in</span> 
                     </button>
@@ -49,12 +47,12 @@ export const Auth = () => {
                         onClick={() => {
                             setFormLogin(false)
                         }}
-                        className={!formLogin ? 'active' : ''}
+                        className={!formLogin ? styles.active : ''}
                     >
                         <span>Register</span> 
                     </button>
                 </div>
-                <div className="form">
+                <div className={styles.form}>
 
                     {formLogin ? (
                         <FormAuth 
@@ -70,17 +68,17 @@ export const Auth = () => {
                         />
                     )}
 
-                    <div className="btnsAuth">
+                    <div className={styles.btnsAuth}>
                         {loading ? (
                             <button 
                                 type="button"
-                                className="btnSubmit"
+                                className={styles.btnSubmit}
                                 disabled
                             >Wait...</button>
                         ) : (
                             <button 
                                 type="button"
-                                className="btnSubmit"
+                                className={styles.btnSubmit}
                                 onClick={
                                     formLogin 
                                     ? () => dispatch(login(optionsDatasForm)) 
@@ -89,7 +87,7 @@ export const Auth = () => {
                             >Send</button>
                         )}
                         <button
-                            className="resetDatasForm"
+                            className={styles.resetDatasForm}
                             type="button"
                             onClick={resetDatasForm}
                         >X</button>

@@ -1,8 +1,8 @@
 @import '../../../globalStyle/global.scss';
-@import './musics.scss';
-@import './pagination.scss';
-@import './search.scss';
-@import './delete.scss';
+@import './musics.module.scss';
+@import './pagination.module.scss';
+@import './search.module.scss';
+@import './delete.module.scss';
 
 @media (max-width: 1800px) {
     .musics, .pagination {

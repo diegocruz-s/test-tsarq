@@ -77,9 +77,7 @@ export const musicSlice = createSlice({
         }
     },
     extraReducers (builder) {
-        builder.addCase('', (state, payload) => {
-            console.log('abc')
-        })
+        builder
         .addCase(getMusics.rejected, (state, { payload }) => {
             state.error = payload as string[]
             state.loading = false

@@ -1,5 +1,5 @@
-import "./styles/main.scss";
-import { Dispatch, SetStateAction, useState, } from "react";
+import styles from "./styles/main.module.scss";
+import { Dispatch, SetStateAction } from "react";
 import { IUser } from "../../interfaces/user/user";
 import {  } from 'react'
 
@@ -30,13 +30,13 @@ const FormAuth = ({ valuesForm, datasForm, setDatasForm }: Props) => {
   }
 
   return (
-    <div className="allComponents">
+    <div className={styles.allComponents}>
       {valuesForm.map((item, i) => {
         return (
-          <div className="elementForm" key={i}>
+          <div className={styles.elementForm} key={i}>
             {/* <label className="textElement">{value}</label> */}
-            <div className="div_icon">
-              <item.icon className="icon" />
+            <div className={styles.div_icon}>
+              <item.icon className={styles.icon} />
             </div>
             <input
                 type={item.value === 'password' ? 'password' : 'text'} 

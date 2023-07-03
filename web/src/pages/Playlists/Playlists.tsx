@@ -1,4 +1,4 @@
-import './styles/main.scss'
+import styles from './styles/main.module.scss'
 import { useEffect, useState } from "react"
 import { IDatasReadPlaylist, readPlaylists } from "../../store/slices/playlists/playlistSlice"
 import { useAppDispatch, useAppSelector } from "../../store/store"
@@ -7,7 +7,7 @@ import { Message } from '../../components/Message/Message'
 
 export const Playlists = () => {
     const dispatch = useAppDispatch()
-    const { success, error } = useAppSelector(state => state.playlist)!
+    const { success, error } = useAppSelector(state => state.playlist)
 
     const [datasReadPlaylistParams, setDatasReadPlaylistParams] = useState<IDatasReadPlaylist>({
         skip: 0,
@@ -24,13 +24,13 @@ export const Playlists = () => {
     // }
 
     return (
-        <div className="playlistsPage">
+        <div className={styles.playlistsPage}>
             Your Playlists
             {success && <Message message={success} type='success' />}
             {error && <Message message={error[0]} type='error' />}
 
             {(playlists && playlists.length > 0) ? (
-                <div className="playlists">
+                <div className={styles.playlists}>
                     {playlists.map((playlist, i) => (
                         <PlaylistItem key={i} playlist={playlist} />
                     ))}

@@ -1,8 +1,6 @@
-import { useState, useRef, useLayoutEffect } from 'react'
-import './styles/main.scss'
-import { resetStates } from '../../store/slices/auth/authSlice'
+import styles from './styles/main.module.scss'
+import { useRef } from 'react'
 import { datasNavbar } from './datas'
-import { gsap } from 'gsap'
 import { NavLink } from 'react-router-dom'
 
 export const Navbar = () => {
@@ -18,22 +16,22 @@ export const Navbar = () => {
     // })
 
     return (
-        <nav className="navbar">
+        <nav className={styles.navbar}>
             <ul ref={navbarRef}>
                 {datasNavbar.map(data => (
                     <NavLink 
                         to={data.redirect} 
                         key={data.name} 
-                        className="liNavbar" 
+                        className={styles.liNavbar} 
                         ref={navbarItemRef}   
                     >
-                        <div className="itemNavbar">
+                        <div className={styles.itemNavbar}>
                             <div 
-                                className="icon"
+                                className={styles.icon}
                             >
                                 {<data.icon />}
                             </div>
-                            <div className="name">
+                            <div className={styles.name}>
                                 {data.name}
                             </div>
                         </div>

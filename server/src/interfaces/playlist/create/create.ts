@@ -2,6 +2,12 @@ import { Playlist } from "../../../models/playlist";
 import { HttpRequest } from "../../http/request";
 import { HttpResponse } from "../../http/response";
 
+export interface DatasResponsePlaylistCreate extends Playlist {
+    _count: {
+        music: number
+    }
+}
+
 export interface IDatasPlaylistCreate {
     name: string
     userId: string
@@ -14,6 +20,11 @@ export type IResponsePlaylistCreate = {
 } | {
     errors: string[]
 }
+
+// export interface IDatasPlaylistCreateRepository {
+//     playlist: Playlist, 
+//     _count: { music: number }
+// }
 
 export interface IPlaylistCreateRepository {
     create(data: IDatasPlaylistCreate): Promise<Playlist>

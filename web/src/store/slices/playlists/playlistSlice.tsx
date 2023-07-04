@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IInitialStates } from "../../../interfaces/context/initialStates";
-import { IDatasEditPlaylist, deletePlaylistFetch, editPlaylistFetch, readPlaylistFetch, readPlaylistsFetch } from '../../services/playlist/playlist'
+import { IDatasEditPlaylist, createPlaylistFetch, deletePlaylistFetch, editPlaylistFetch, readPlaylistFetch, readPlaylistsFetch } from '../../services/playlist/playlist'
 import { Playlist } from "../../../interfaces/playlist/playlist";
 import { Music } from "../../../interfaces/musics/musics";
 
@@ -16,6 +16,19 @@ export interface IDatasReadPlaylist {
     skip?: number
     take?: number
 }
+
+export const createPlaylist = createAsyncThunk(
+    'playlist/create', 
+    async (datas: FormData, thunkAPI) => {
+        resetStates()
+        const newPlaylist = await createPlaylistFetch(datas)
+        if ('errors' in newPlaylist) {
+            return thunkAPI.rejectWithValue(newPlaylist.errors)
+        }
+
+        return newPlaylist
+    }
+)
 
 export const readPlaylists = createAsyncThunk(
     'playlist/readMany',
@@ -165,6 +178,27 @@ export const playlistSlice = createSlice({
             console.log('payloadDatas', payloadDatas)
             if(payloadDatas) {
                 state.datasPlay = payloadDatas
+            }
+        })
+        .addCase(createPlaylist.rejected, (state, { payload }) => {
+            state.error = payload as string[]
+            state.loading = false
+            state.success = null
+        })
+        .addCase(createPlaylist.pending, (state) => {
+            state.error = null
+            state.loading = true
+            state.success = null
+        })
+        .addCase(createPlaylist.fulfilled, (state, { payload }) => {
+            const payloadDatas = payload as { playlist: Playlist, message: string }
+            console.log('payload:', payloadDatas.playlist)
+            state.error = null,
+            state.loading = false
+            console.log('payloadDatas', payloadDatas)
+            if(payloadDatas && payloadDatas.playlist) {
+                state.playlists?.unshift(payloadDatas.playlist)
+                state.success = payloadDatas.message
             }
         })
     }

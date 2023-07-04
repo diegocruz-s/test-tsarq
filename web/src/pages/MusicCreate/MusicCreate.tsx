@@ -35,6 +35,7 @@ export const MusicCreate = () => {
     }
 
     const onChangeDatas = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(e.target)
         setDatasMusic({
             ...datasMusic, [e.target.name]: e.target.value
         })

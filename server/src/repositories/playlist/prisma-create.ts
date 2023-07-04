@@ -23,13 +23,17 @@ export class PlaylistCreateRepository implements IPlaylistCreateRepository {
             data: {
                 userId: data.userId,
                 name: data.name,
-                image: data.image
+                image: data.image,
+            },
+            include: {
+                _count: true
             }
         })
 
         if(!playlist) throw new Error('Error creating playlist!')
 
         return playlist
+            
     }
 }
 

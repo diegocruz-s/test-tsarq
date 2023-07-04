@@ -22,7 +22,9 @@ export const Navbar = () => {
                     <NavLink 
                         to={data.redirect} 
                         key={data.name} 
-                        className={styles.liNavbar} 
+                        className={({ isActive }) =>
+                            `${styles.liNavbar} ${isActive ? styles.active : ''}`
+                        }
                         ref={navbarItemRef}   
                     >
                         <div className={styles.itemNavbar}>

@@ -1,9 +1,26 @@
+import { Playlist } from "../../../interfaces/playlist/playlist"
 import { api } from "../../../utils/api"
 import { IDatasReadPlaylist } from "../../slices/playlists/playlistSlice"
 
 export interface IDatasEditPlaylist {
     id: string
     name: string
+}
+
+export const createPlaylistFetch = async (datas: FormData) => {
+    try {
+        const response = await api.post('/playlist', datas)
+            .then(res => {
+                return res.data
+            })
+            .catch(err => {
+                return err.response.data
+            })
+            console.log('response', response.playlist.playlist)
+        return response
+    } catch (error: any) {
+        return [error.message]
+    }
 }
 
 export const readPlaylistsFetch = async (datas: IDatasReadPlaylist) => {

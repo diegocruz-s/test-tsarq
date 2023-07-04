@@ -34,11 +34,13 @@ export class PlaylistCreateController implements IPlaylistCreateController {
             }
 
 
-            const playlist = await this.repository.create(datasCreatePlaylist)
+            const datas = await this.repository.create(datasCreatePlaylist)
+            console.log('datas', datas)
 
+            console.log(datas)
             return {
                 body: {
-                    playlist,
+                    playlist: datas,
                     message: 'Playlist created with success!'
                 },
                 statusCode: 201

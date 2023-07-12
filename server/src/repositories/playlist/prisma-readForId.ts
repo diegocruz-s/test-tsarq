@@ -16,6 +16,9 @@ export class PlaylistReadForIdRepository implements IPlaylistReadForIdRepository
                     }
                 ]
             },
+            include: {
+                _count: true
+            },
         })
         if(!playlist) throw new Error('Playlist not found!')
 

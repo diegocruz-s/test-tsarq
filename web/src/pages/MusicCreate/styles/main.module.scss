@@ -1,0 +1,53 @@
+@import '../../../globalStyle/global.scss';
+
+.formCreateMusic {
+    @extend .flexCenter;
+    flex-direction: column;
+    height: 60vh;
+
+    label {
+        @extend .flexCenter;
+        width: 30%;
+        margin-bottom: .5em;
+        border-bottom: 2px solid #d3d3d3;
+        font-size: 1.5em;
+
+        input {
+            flex: 1;
+            padding: .5em;
+            background-color: transparent;
+            border: none;
+            margin-left: .5em;
+
+            &::placeholder {
+                color: #e0e0e0;
+            }
+            &:focus {
+                outline: none;
+            }
+        }
+
+        svg {
+            
+            width: 8%;
+        }
+    }
+
+    button {
+        padding: .3em;
+        cursor: pointer;
+        width: 30%;
+        background-color: #ffffff;
+        border: 1px solid #fff;
+        color: #000;
+        border-radius: .5em;
+        font-size: 1.3em;
+        transition: .2s all;
+
+        &:hover {
+            color: #fff;
+            background-color: transparent;
+        }
+        
+    }
+}

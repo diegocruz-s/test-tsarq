@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IInitialStates } from "../../../interfaces/context/initialStates";
-import { IDatasEditPlaylist, createPlaylistFetch, deletePlaylistFetch, editPlaylistFetch, readPlaylistFetch, readPlaylistsFetch } from '../../services/playlist/playlist'
+import { IDatasEditPlaylist, createPlaylistFetch, deletePlaylistFetch, editPlaylistFetch, readPlaylistFetch, readPlaylistsFetch, removeMusicPlaylistFetch } from '../../services/playlist/playlist'
 import { Playlist } from "../../../interfaces/playlist/playlist";
 import { Music } from "../../../interfaces/musics/musics";
+import { IDatasOperationMusicPlaylist } from "../music_playlist/musicPlaylistSlice";
 
 const initialState: IInitialStates = {
     error: null,
@@ -15,6 +16,7 @@ const initialState: IInitialStates = {
 export interface IDatasReadPlaylist {
     skip?: number
     take?: number
+    name?: string
 }
 
 export const createPlaylist = createAsyncThunk(
@@ -38,7 +40,6 @@ export const readPlaylists = createAsyncThunk(
         if ('errors' in playlists) {
             return thunkAPI.rejectWithValue(playlists.errors)
         }
-
         return playlists
     }
 )
@@ -76,13 +77,28 @@ export const readPlaylist = createAsyncThunk(
     'playlist/readOne',
     async (id: string, thunkAPI) => {
         resetStates()
-        console.log('ok')
         const datas = await readPlaylistFetch(id)
         if('errors' in datas) {
             return thunkAPI.rejectWithValue(datas.errors)
         }
 
         return datas
+    }
+)
+
+export const removeMusicPlaylist = createAsyncThunk(
+    '/playlist/deleteMusic',
+    async(datas: IDatasOperationMusicPlaylist, thunkAPI) => {
+        resetStates()
+        const response = await removeMusicPlaylistFetch(datas)
+        if('errors' in response) {
+            return thunkAPI.rejectWithValue(response.errors)
+        }
+
+        return {
+            response,
+            musicId: datas.musicId
+        }
     }
 )
 
@@ -150,11 +166,9 @@ export const playlistSlice = createSlice({
             const payloadDatas = payload.playlist as Playlist
             state.error = null,
             state.loading = false
-            console.log('payloadDatas', payloadDatas)
             if(payloadDatas && state.playlists) {
                 state.playlists.map(playlist => {
                     if (playlist.id === payloadDatas.id) {
-                        console.log('Foi')
                         playlist.name = payloadDatas.name
                     }
                 })
@@ -175,7 +189,6 @@ export const playlistSlice = createSlice({
             const payloadDatas = payload as { playlist: Playlist, musics: Music[] }
             state.error = null,
             state.loading = false
-            console.log('payloadDatas', payloadDatas)
             if(payloadDatas) {
                 state.datasPlay = payloadDatas
             }
@@ -192,13 +205,31 @@ export const playlistSlice = createSlice({
         })
         .addCase(createPlaylist.fulfilled, (state, { payload }) => {
             const payloadDatas = payload as { playlist: Playlist, message: string }
-            console.log('payload:', payloadDatas.playlist)
             state.error = null,
             state.loading = false
-            console.log('payloadDatas', payloadDatas)
             if(payloadDatas && payloadDatas.playlist) {
                 state.playlists?.unshift(payloadDatas.playlist)
                 state.success = payloadDatas.message
+            }
+        })
+        .addCase(removeMusicPlaylist.rejected, (state, { payload }) => {
+            state.error = payload as string[]
+            state.loading = false
+            state.success = null
+        })
+        .addCase(removeMusicPlaylist.pending, (state) => {
+            state.error = null
+            state.loading = true
+            state.success = null
+        })
+        .addCase(removeMusicPlaylist.fulfilled, (state, { payload }) => {
+            const payloadDatas = payload
+            state.error = null,
+            state.loading = false
+            if(state.datasPlay?.musics && state.datasPlay?.musics.length > 0) {
+                const filterMusics = state.datasPlay.musics.filter(music => music.id !== payloadDatas.musicId)
+                state.datasPlay.musics = filterMusics
+                state.success = payloadDatas.response.message
             }
         })
     }

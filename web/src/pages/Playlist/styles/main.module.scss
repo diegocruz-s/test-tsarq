@@ -1,3 +1,205 @@
-.musics {
+@import '../../../globalStyle/global.scss';
+$largestColumnSize: 60%;
+$smallestColumnSize: 10%;
+.separate {
+    width: 100%;
+    height: 2em;
+}
+.playlistId {
+    margin: auto;
+    width: 50%;
+    padding: 1em;
+    border-radius: .5em;
+    background: linear-gradient(to bottom, rgba(0,0,0,.4), rgba(0,0,0,.1));
+
+    .playlistDatas {
+        display: flex;
+        align-items: center;
+        padding: .8em;
+        margin-bottom: .5em;
     
+        img {
+            width: calc($sizeMusic / 1.5);
+            height: calc($sizeMusic / 1.5);
+        }
+        .textsPlaylist {
+            margin-left: 1.5em;
+
+            .namePlaylist {
+                font-size: 5.5em;
+            }
+            .infosPlaylist {
+                font-size: 1.3em;
+                display: flex;
+                align-items: center;
+                margin-top: .5em;
+                gap: 1.1em;
+
+                .runPlaylist svg {
+                    font-size: 1.5em;
+                    cursor: pointer;
+                    
+                    &:hover {
+                        path {
+                            color: #fff;
+                        }
+                    }
+                    
+                    path {
+                        transition: .2s all;
+                        color: rgb(163, 163, 163);
+                    }
+                }
+            }
+        }
+    }
+    .musicsDatas {
+        // min-height: 200px;
+        padding-bottom: 2em;
+
+        table {
+            width: 100%;
+            padding-top: 1em;
+            border-collapse: separate;
+            border-spacing: 0 1rem;
+            
+
+            thead {
+                width: 100%;
+                
+                tr td {
+                    padding: 1em;
+                    font-weight: bold;
+                    border-bottom: 1px solid #fff;
+                }
+
+                tr .indexMusicHead {
+                    width: $smallestColumnSize;
+                    text-align: center;
+                }
+                tr .titleMusicHead {
+                    width: $largestColumnSize;
+                }
+                tr .bandMusicHead {
+                    width: $smallestColumnSize * 2;
+                    text-align: center;
+                }
+                tr .durationMusicHead {
+                }
+            }
+            
+            tbody {
+                // display: block;
+                padding: 1em;
+                position: relative;
+
+                tr {
+                    margin-bottom: 1rem;
+                    text-align: center;
+                }
+
+                tr .musicImageAndName {
+                    cursor: pointer;
+                    position: relative;
+                    text-align: start;
+                    display: flex;
+                    align-items: center;
+
+                    &:hover {
+                        .deleteMusicPlaylist {
+                            display: block;
+                        }
+                    }
+
+                    img {
+                        display: block;
+                        width: 130px;
+                        border-radius: .3em;
+                        margin-right: .5em;
+                    }
+
+                    p {
+                        text-transform: capitalize;
+                        font-size: 1.2em;
+                        // font-weight: bold;
+                    }
+                    .deleteMusicPlaylist {
+                        display: none;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+    
+                        button {
+                            cursor: pointer;
+                            width: 20px;
+                            height: 20px;
+                            border: 1px solid #fff;
+                            border-radius: .3em;
+                            color: #fff;
+                            background-color: #fa8383;
+                            transition: .2s all;
+    
+                            &:hover {
+                                background-color: #fc4545;
+                            }
+                        }
+                    }
+                }
+
+                tr .bandMusic {
+                    font-size: 1.2em;
+                }
+
+                tr .durationMusic {
+                    font-weight: bold;
+                }
+
+            }
+        }
+    }
+}
+
+
+@media (max-width: 1800px) {
+    .playlistId  {
+        width: 60%;
+    }
+}
+@media (max-width: 1550px) {
+    .playlistId  {
+        width: 55%;
+    }
+}
+@media (max-width: 1400px) {
+    .playlistId  {
+        width: 60%;
+    }
+}
+@media (max-width: 1350px) {
+    .playlistId  {
+        width: 65%;
+    }
+}
+@media (max-width: 1250px) {
+    .playlistId  {
+        width: 70%;
+    }
+}
+@media (max-width: 1100px) {
+    .playlistId  {
+        grid-template-columns: 1fr 1fr;
+        width: 60%;
+    }
+}
+@media (max-width: 870px) {
+    .playlistId  {
+        grid-template-columns: 1fr 1fr;
+        width: 98%;
+    }
+}
+@media (max-width: 750px) {
+    .playlistId  {
+        grid-template-columns: 1fr;
+        width: 98%;
+    }
 }

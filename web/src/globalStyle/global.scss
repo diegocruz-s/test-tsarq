@@ -1,7 +1,7 @@
 $colorInput: #fff;
 $colorBorder: #4a39e7;
 $sizeMusic: 250px;
-$colorComponents: rgb(175, 175, 175);
+$colorComponents: rgb(0, 0, 0);
 
 * {
     padding: 0;
@@ -11,7 +11,8 @@ $colorComponents: rgb(175, 175, 175);
 }
 body {
     min-height: 100vh;
-    background-color: #d3d3d3;
+    background-color: #252525;
+    position: relative;
 }
 
 .flexCenter {

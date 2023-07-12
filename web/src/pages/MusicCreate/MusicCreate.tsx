@@ -4,6 +4,7 @@ import { Music } from '../../interfaces/musics/musics'
 import { useAppDispatch, useAppSelector } from '../../store/store'
 import { createMusic } from '../../store/slices/musics/musicSlice'
 import { Message } from '../../components/Message/Message'
+import { BsBodyText, BsBorderWidth, BsCardList, BsFillCalendarRangeFill, BsFillPersonFill, BsMusicNote } from 'react-icons/bs'
 
 export const MusicCreate = () => {
 
@@ -17,9 +18,7 @@ export const MusicCreate = () => {
         year: 0,
         categoryId: '',
     })
-
-    console.log('datasMusic:', datasMusic)
-
+    
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
@@ -35,7 +34,6 @@ export const MusicCreate = () => {
     }
 
     const onChangeDatas = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target)
         setDatasMusic({
             ...datasMusic, [e.target.name]: e.target.value
         })
@@ -43,12 +41,14 @@ export const MusicCreate = () => {
 
     return (
         <div className="musicCreate">
-            {success && <Message message={success} type='success' />}
             
             <form
+                className={styles.formCreateMusic}
                 onSubmit={onSubmit}
             >
+                {success && <Message message={success} type='success' />}
                 <label>
+                    <BsBorderWidth />
                     <input 
                         type="url" 
                         placeholder='URL music'
@@ -58,6 +58,7 @@ export const MusicCreate = () => {
                     />
                 </label>
                 <label>
+                    <BsMusicNote />
                     <input 
                         type="text" 
                         placeholder='Band'
@@ -67,6 +68,7 @@ export const MusicCreate = () => {
                     />
                 </label>
                 <label>
+                    <BsFillPersonFill />
                     <input 
                         type="text" 
                         placeholder='Composer'
@@ -76,6 +78,7 @@ export const MusicCreate = () => {
                     />
                 </label>
                 <label>
+                    <BsFillCalendarRangeFill />
                     <input 
                         type="number" 
                         placeholder='year'
@@ -85,6 +88,7 @@ export const MusicCreate = () => {
                     />
                 </label>
                 <label>
+                    <BsCardList />
                     <input 
                         type="text" 
                         placeholder='categoryId'
@@ -95,9 +99,9 @@ export const MusicCreate = () => {
                 </label>
 
                 {loading ? (
-                    <button disabled>Aguarde...</button>
+                    <button disabled>Wait...</button>
                 ) : (
-                    <button type='submit'>Vai</button>
+                    <button type='submit'>Create</button>
                 )}
             </form>
         </div>

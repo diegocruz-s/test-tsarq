@@ -6,25 +6,31 @@ import { useEffect, useState } from "react";
 import {
   getMusics,
   countMusics,
+  resetStates as resetStateMusic,
 } from "../../store/slices/musics/musicSlice";
 import { useAppDispatch, useAppSelector } from "../../store/store";
 // Interface
-import { IDatasGetMusics } from "../../interfaces/musics/musics";
+import { IDatasGetMusics, Music } from "../../interfaces/musics/musics";
 // Components
 import { Message } from "../../components/Message/Message";
 // Icons
 import { BsSearch } from "react-icons/bs";
 import { MusicItem } from "../../components/Music/Music";
+import { PlayMusic } from "../../components/PlayMusic/PlayMusic";
+import { resetStates as resetStatesMusicPlaylist } from "../../store/slices/music_playlist/musicPlaylistSlice";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
-  const { musics, count, success } = useAppSelector((state) => state.music)
+  const { musics, count: qtdMusic, success: successMusic } = useAppSelector((state) => state.music)
+  const { success: successAddMusicPlaylist } = useAppSelector(state => state.musicPlaylist)
   const [datasGetMusics, setDatasGetMusics] = useState<IDatasGetMusics>({
     take: 10,
     skip: 0,
     name: "",
   });
   const [pags, setPags] = useState(0);
+  const [musicExec, setMusicExec] = useState<Music[]>([])
+  const [countActualMusicExec, setCountActualMusicExec] = useState<number>(0)
 
   useEffect(() => {
     (async () => {
@@ -34,15 +40,15 @@ export const Home = () => {
   }, [datasGetMusics]);
 
   useEffect(() => {
-    if (count) {
-      setPags(Math.ceil(count / datasGetMusics.take));
-      if (count <= 10) {
+    if (qtdMusic) {
+      setPags(Math.ceil(qtdMusic / datasGetMusics.take));
+      if (qtdMusic <= 10) {
         setDatasGetMusics({
           ...datasGetMusics,
           take: 10,
         });
       } else {
-        const newValueTake = Math.floor(Math.random() * (count - 10)) + 10;
+        const newValueTake = Math.floor(Math.random() * (qtdMusic - 10)) + 10;
         const newValueSkip = newValueTake <= 10 ? 0 : newValueTake - 10;
         setDatasGetMusics({
           ...datasGetMusics,
@@ -51,11 +57,8 @@ export const Home = () => {
         });
       }
     }
-  }, [count]);
+  }, [qtdMusic]);
 
-  {
-    console.log("success", success);
-  }
   return (
     <div className={styles.home}>
       <div className={styles.filter}>
@@ -66,6 +69,7 @@ export const Home = () => {
             type="text"
             placeholder="Procurar música"
             value={datasGetMusics.name || ""}
+            name='name'
             onChange={(e) => {
               setDatasGetMusics({
                 ...datasGetMusics,
@@ -76,12 +80,17 @@ export const Home = () => {
         </label>
       </div>
 
-      {success && <Message message={success} type="success" />}
+      { successMusic && <Message message={successMusic} type="success" />}
+      { successAddMusicPlaylist && <Message message={successAddMusicPlaylist} type='success' /> }
 
       <div className={styles.musics}>
         {musics && musics.length > 0 ? (
           musics.map((music) => (
-            <MusicItem key={music.id} music={music} />
+              <MusicItem 
+                key={music.id} 
+                music={music} 
+                setMusicExec={setMusicExec}
+              />
           ))
         ) : (
           <p>Músicas não encontradas...</p>
@@ -110,7 +119,12 @@ export const Home = () => {
               </div>
             );
           })}
+          
       </div>
+
+      {(musicExec && musicExec.length > 0) && (
+        <PlayMusic music={musicExec[countActualMusicExec]} />
+      )}
 
       
     </div>

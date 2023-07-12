@@ -1,10 +1,27 @@
 import { Playlist } from "../../../interfaces/playlist/playlist"
 import { api } from "../../../utils/api"
+import { IDatasOperationMusicPlaylist } from "../../slices/music_playlist/musicPlaylistSlice"
 import { IDatasReadPlaylist } from "../../slices/playlists/playlistSlice"
 
 export interface IDatasEditPlaylist {
     id: string
     name: string
+}
+
+export const removeMusicPlaylistFetch = async (datas: IDatasOperationMusicPlaylist) => {
+    try {
+        const response = await api.delete(`/music_playlist/${datas.musicId}/${datas.playlistId}`)
+            .then (res => {
+                return res.data
+            })
+            .catch(err => {
+                return err.respose.data
+            })
+        
+        return response
+    } catch (error: any) {
+        return [error.message]
+    }
 }
 
 export const createPlaylistFetch = async (datas: FormData) => {
@@ -16,7 +33,6 @@ export const createPlaylistFetch = async (datas: FormData) => {
             .catch(err => {
                 return err.response.data
             })
-            console.log('response', response.playlist.playlist)
         return response
     } catch (error: any) {
         return [error.message]
@@ -25,7 +41,7 @@ export const createPlaylistFetch = async (datas: FormData) => {
 
 export const readPlaylistsFetch = async (datas: IDatasReadPlaylist) => {
     try {
-        const response = await api.get(`/playlist?skip=${datas.skip || 0}&take=${datas.take || 10}`)
+        const response = await api.get(`/playlist?skip=${datas.skip || 0}&take=${datas.take || 10}&name=${datas.name || ''}`)
             .then(res => {
                 return res.data
             })

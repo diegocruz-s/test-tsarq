@@ -128,7 +128,6 @@ export const musicSlice = createSlice({
         })
         .addCase(deleteMusic.fulfilled, (state, { payload }) => {
             const payloadDatas = payload
-            console.log('payload:', payload.response)
             state.error = null,
             state.loading = false
             if(payloadDatas && state.musics) {
@@ -150,7 +149,6 @@ export const musicSlice = createSlice({
         })
         .addCase(createMusic.fulfilled, (state, { payload }) => {
             const payloadDatas = payload
-            console.log('payload:', payload.response)
             state.error = null,
             state.loading = false
             if(payloadDatas) {

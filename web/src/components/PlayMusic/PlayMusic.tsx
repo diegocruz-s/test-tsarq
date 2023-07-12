@@ -4,12 +4,16 @@ import { useAppSelector } from '../../store/store';
 import styles from './styles/main.module.scss'
 import { Music } from '../../interfaces/musics/musics';
 import { useParams } from 'react-router-dom';
+import { Howl, Howler } from 'howler'
+
 
 type IDatasPlayMusic = {
-  music?: Music
+  music: Music,
+  setCount?: React.Dispatch<React.SetStateAction<number>>
+  count?: number
 }
 
-export const PlayMusic = (play: IDatasPlayMusic) => {
+export const PlayMusic = ({ music, setCount, count }: IDatasPlayMusic) => {
   const { token, user } = useAppSelector(state => state.auth.datasStorage)!;
   const { id } = useParams()
   const [loading, setLoading] = useState(false)
@@ -17,11 +21,22 @@ export const PlayMusic = (play: IDatasPlayMusic) => {
 
   const audioPlayerRef = useRef<HTMLAudioElement>(null);
   const [musicId, setMusicId] = useState(id)
-  const audioSource = `http://localhost:3000/music/${musicId}/${user.id}/${token}`;
+  const audioSource = `http://localhost:3000/music/${music.id}/${user.id}/${token}`;
 
   useEffect(() => {
     if(audioPlayerRef.current) {
-      audioPlayerRef.current.addEventListener('ended', () => console.log('acabou'));
+      audioPlayerRef.current.addEventListener('ended', () => {
+        if (setCount) {
+          setCount(prevCount => {
+            // Verificar se o count já foi incrementado
+            if (prevCount === count) {
+              return prevCount + 1;
+            } else {
+              return prevCount;
+            }
+          });
+        }
+      });
     }
     
     if (!token) {
@@ -42,6 +57,9 @@ export const PlayMusic = (play: IDatasPlayMusic) => {
         if(audioPlayerRef.current) {
           audioPlayerRef.current.src = audioSource;
           audioPlayerRef.current.load();
+          setTimeout(() => {
+            audioPlayerRef.current?.play()
+          }, 1000)
         }
         
       })
@@ -61,40 +79,118 @@ export const PlayMusic = (play: IDatasPlayMusic) => {
       }
       
     };
-  }, [audioSource, token]);
-  
-  const pauseAndPlayMusic = () => {
-    console.log('pause', pause)
-    setPause(!pause)
-    console.log('pause', pause)
-
-    pause ? audioPlayerRef.current?.pause() : audioPlayerRef.current?.play()
-
-  }
+  }, [audioSource]);
 
   return (
     <div className={styles.audio_player}>
-
-        {/* <button
-          onClick={() => setMusicId('2abb8151-2fff-452c-b7f1-0cf7a3697b73')}
-        >
-          #
-        </button>
-        <button
-          onClick={() => setMusicId('b8e734c7-61c8-4583-a074-93b69fbfa338')}
-        >
-          #
-        </button>
-        <button
-          onClick={() => setMusicId('e7f6ea62-146d-453f-add9-d30cb645141b')}
-        >
-          #
-        </button> */}
-
-        <button onClick={pauseAndPlayMusic}>P</button>
-        <audio ref={audioPlayerRef} controls controlsList='nodowload' preload="none" />
-
+        <audio ref={audioPlayerRef} controls={true} />
     </div>
   );
 };
+
+
+
+
+
+
+
+
+
+
+
+// backup 
+// import { useEffect, useRef, useState } from 'react';
+// import { useAppSelector } from '../../store/store';
+// // import { useAuth } from '../../utils/checkAuth';
+// import styles from './styles/main.module.scss'
+// import { Music } from '../../interfaces/musics/musics';
+// import { useParams } from 'react-router-dom';
+
+// type IDatasPlayMusic = {
+//   music: Music,
+//   setCount?: React.Dispatch<React.SetStateAction<number>>
+//   count?: number
+// }
+
+// export const PlayMusic = ({ music, setCount, count }: IDatasPlayMusic) => {
+//   const { token, user } = useAppSelector(state => state.auth.datasStorage)!;
+//   const { id } = useParams()
+//   const [loading, setLoading] = useState(false)
+//   const [pause, setPause] = useState(false)
+
+//   const audioPlayerRef = useRef<HTMLAudioElement>(null);
+//   const [musicId, setMusicId] = useState(id)
+//   const audioSource = `http://localhost:3000/music/${music.id}/${user.id}/${token}`;
+
+//   useEffect(() => {
+//     if(audioPlayerRef.current) {
+//       audioPlayerRef.current.addEventListener('ended', () => {
+//         if (setCount) {
+//           setCount(prevCount => {
+//             // Verificar se o count já foi incrementado
+//             if (prevCount === count) {
+//               return prevCount + 1;
+//             } else {
+//               return prevCount;
+//             }
+//           });
+//         }
+//       });
+//     }
+    
+//     if (!token) {
+//       return;
+//     }
+  
+//     setLoading(true);
+  
+//     const headers = new Headers();
+//     headers.append('Authorization', `Bearer ${token}`);
+  
+//     fetch(audioSource, { headers })
+//       .then(response => {
+//         if (!response.ok) {
+//           throw new Error('Failed to fetch audio');
+//         }
+  
+//         if(audioPlayerRef.current) {
+//           audioPlayerRef.current.src = audioSource;
+//           audioPlayerRef.current.load();
+//           setTimeout(() => {
+//             audioPlayerRef.current?.play()
+//           }, 1000)
+//         }
+        
+//       })
+//       .catch(error => {
+//         console.log('Error:', error);
+//       })
+//       .finally(() => {
+//         setLoading(false);
+//       });
+  
+//     return () => {
+//       if(audioPlayerRef.current) {
+//         audioPlayerRef.current.src = '';
+//         audioPlayerRef.current.load();
+//         setLoading(false);
+//         audioPlayerRef.current.removeEventListener('ended', () => console.log('acabou'));
+//       }
+      
+//     };
+//   }, [audioSource]);
+  
+//   const pauseAndPlayMusic = () => {
+//     setPause(!pause)
+//     pause ? audioPlayerRef.current?.pause() : audioPlayerRef.current?.play()
+//   }
+
+//   return (
+//     <div className={styles.audio_player}>
+//         <button onClick={pauseAndPlayMusic}>P</button>
+//         <audio style={{ color: "#fff",  }} ref={audioPlayerRef} controls />
+
+//     </div>
+//   );
+// };
 

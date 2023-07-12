@@ -11,7 +11,6 @@ type ReturnDatasRegister = {
 
 export const loginService = async (datas: IAuth): Promise<ReturnDatasLogin> => {
     try {
-        console.log('service')
         const res: ReturnDatasLogin = await api.post('/auth', datas)
             .then(response => {
                 return response.data
@@ -20,7 +19,6 @@ export const loginService = async (datas: IAuth): Promise<ReturnDatasLogin> => {
                 return err.response.data
                 
             })
-        console.log('res:', res)
         return res
     } catch (error: any) {
         return [error.message]
@@ -30,7 +28,6 @@ export const loginService = async (datas: IAuth): Promise<ReturnDatasLogin> => {
 
 export const registerService = async (datas: Omit<IUser, 'id'>): Promise<ReturnDatasRegister> => {
     try {
-        console.log('service')
         const res: ReturnDatasRegister = await api.post('/user', datas)
             .then(response => {
                 return response.data
@@ -39,7 +36,6 @@ export const registerService = async (datas: Omit<IUser, 'id'>): Promise<ReturnD
                 return err.response.data
                 
             })
-        console.log('res:', res)
         return res
     } catch (error: any) {
         return [error.message]

@@ -44,7 +44,7 @@ export class MusicPlaylistCreateRepository implements IMusicPlaylistCreateReposi
                 }
             },
             include: {
-                music: true
+                playlist: true
             },
         })
         if(relationalMusicPlaylist) return relationalMusicPlaylist
@@ -55,7 +55,7 @@ export class MusicPlaylistCreateRepository implements IMusicPlaylistCreateReposi
                 playlistId
             },
             include: {
-                music: true
+                playlist: true
             },
         })
         if(!creatingRelationMusicPlaylist) throw new Error('Error adding music to playlist!')

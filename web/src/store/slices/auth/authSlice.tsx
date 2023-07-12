@@ -35,7 +35,6 @@ export const register = createAsyncThunk(
     'auth/register', 
     async (datas: Omit<IUser, 'id'>, thunkAPI) => {
         resetStates()
-        console.log('datasRegister:', datas)
         if(!datas) {
             return
         }
@@ -63,7 +62,6 @@ export const authSlice = createSlice({
         builder
             // login
             .addCase(login.rejected, (state, { payload }) => {
-                console.log('payload_rejected_login:', payload)
                 state.error = payload as string[]
                 state.loading = false
                 state.success = null
@@ -75,7 +73,6 @@ export const authSlice = createSlice({
             })
             .addCase(login.fulfilled, (state, { payload }) => {
                 const payloadDatas = payload as DatasStorage
-                console.log('payload_success_login:', payload)
                 state.error = null,
                 state.loading = false
                 state.datasStorage = payloadDatas
@@ -84,7 +81,6 @@ export const authSlice = createSlice({
             })
             // register
             .addCase(register.rejected, (state, { payload }) => {
-                console.log('payload_rejected_register:', payload)
                 state.error = payload as string[]
                 state.loading = false
                 state.success = null
@@ -95,7 +91,6 @@ export const authSlice = createSlice({
                 state.success = null
             })
             .addCase(register.fulfilled, (state, { payload }) => {
-                console.log('payload_success_register:', payload)
                 state.error = null,
                 state.loading = false
                 if(payload && 'message' in payload) {

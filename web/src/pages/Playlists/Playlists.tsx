@@ -23,13 +23,11 @@ export const Playlists = () => {
         name: '',
         image: ''
     })
-    const { playlists, loading } = useAppSelector(state => state.playlist)!
+    const { playlists, loading } = useAppSelector(state => state.playlist)
 
     useEffect(() => {
         dispatch(readPlaylists(datasReadPlaylistParams))
     }, [datasReadPlaylistParams])
-
-    console.log(datasCreateCar)
 
     const resetForm = () => {
         setDatasCreateCar({
@@ -66,7 +64,6 @@ export const Playlists = () => {
 
         formData.append('name', datasCreateCar.name)
         formData.append('image', datasCreateCar.image)
-        console.log('ok')
 
         dispatch(createPlaylist(formData))
         setShowFormCreate(false)

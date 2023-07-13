@@ -16,3 +16,8 @@ export interface IDatasGetMusics {
     skip: number
     name: string
 }
+
+export interface Category {
+    id: string
+    name: string
+}

@@ -36,6 +36,22 @@ export const deleteMusicFetch = async(id: string) => {
     }
 }
 
+export const getCategoriesFetch = async () => {
+    try {
+        const categories = await api.get('/music/categories')
+            .then(response => {
+                return response.data
+            })
+            .catch((err) => {
+                return err.response.data
+                
+            })
+        return categories
+    } catch (error: any) {
+        return [error.message]
+    }
+}
+
 export const getMusicsFetch = async (datas: IDatasGetMusics) => {
     try {
         const musics = await api.get(

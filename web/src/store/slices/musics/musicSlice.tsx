@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IInitialStates } from "../../../interfaces/context/initialStates";
-import { IDatasGetMusics, Music } from '../../../interfaces/musics/musics'
-import { countMusicsFetch, createMusicFetch, deleteMusicFetch, getMusicsFetch } from "../../services/music/music";
+import { Category, IDatasGetMusics, Music } from '../../../interfaces/musics/musics'
+import { countMusicsFetch, createMusicFetch, deleteMusicFetch, getCategoriesFetch, getMusicsFetch } from "../../services/music/music";
 
 const initialState: IInitialStates = {
     error: null,
@@ -10,6 +10,7 @@ const initialState: IInitialStates = {
     musics: undefined,
     music: undefined,
     count: undefined,
+    categories: undefined
 }
 
 export const createMusic = createAsyncThunk(
@@ -51,6 +52,19 @@ export const getMusics = createAsyncThunk(
         }
 
         return musics
+    }
+)
+
+export const getCategories = createAsyncThunk(
+    'music/categories',
+    async (_, thunkAPI) => {
+        resetStates()
+        const categories = await getCategoriesFetch()
+        if('errors' in categories) {
+            return thunkAPI.rejectWithValue(categories.errors)
+        }
+
+        return categories
     }
 )
 
@@ -113,7 +127,24 @@ export const musicSlice = createSlice({
             state.loading = false
             if(payloadDatas) {
                 state.count = payloadDatas.count
-
+            }
+        })
+        .addCase(getCategories.rejected, (state, { payload }) => {
+            state.error = payload as string[]
+            state.loading = false
+            state.success = null
+        })
+        .addCase(getCategories.pending, (state) => {
+            state.error = null
+            state.loading = true
+            state.success = null
+        })
+        .addCase(getCategories.fulfilled, (state, { payload }) => {
+            const payloadDatas = payload as { categories: Category[] }
+            state.error = null,
+            state.loading = false
+            if(payloadDatas) {
+                state.categories = payloadDatas.categories
             }
         })
         .addCase(deleteMusic.rejected, (state, { payload }) => {

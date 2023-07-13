@@ -1,15 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './styles/main.module.scss'
 import { Music } from '../../interfaces/musics/musics'
 import { useAppDispatch, useAppSelector } from '../../store/store'
-import { createMusic } from '../../store/slices/musics/musicSlice'
+import { createMusic, getCategories } from '../../store/slices/musics/musicSlice'
 import { Message } from '../../components/Message/Message'
 import { BsBodyText, BsBorderWidth, BsCardList, BsFillCalendarRangeFill, BsFillPersonFill, BsMusicNote } from 'react-icons/bs'
 
 export const MusicCreate = () => {
 
     const dispatch = useAppDispatch()
-    const { loading, success } = useAppSelector(state => state.music)
+    const { loading, success, categories } = useAppSelector(state => state.music)
 
     const [datasMusic, setDatasMusic] = useState<Partial<Music>>({
         url: '',
@@ -18,6 +18,12 @@ export const MusicCreate = () => {
         year: 0,
         categoryId: '',
     })
+
+    console.log(datasMusic)
+
+    useEffect(() => {
+        dispatch(getCategories())
+    }, [])
     
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -33,7 +39,7 @@ export const MusicCreate = () => {
         dispatch(createMusic(datasMusic))
     }
 
-    const onChangeDatas = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onChangeDatas = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         setDatasMusic({
             ...datasMusic, [e.target.name]: e.target.value
         })
@@ -89,13 +95,24 @@ export const MusicCreate = () => {
                 </label>
                 <label>
                     <BsCardList />
-                    <input 
-                        type="text" 
-                        placeholder='categoryId'
-                        name='categoryId'
-                        value={datasMusic.categoryId || ''}
-                        onChange={onChangeDatas}
-                    />
+                    <select 
+                        onChange={onChangeDatas} 
+                        name="categoryId"
+                    >
+                        <option>Category</option>
+                        {(categories && categories.length > 0) && (
+                            <>
+                                {categories.map(category => (
+                                    <option 
+                                        key={category.id} 
+                                        value={category.id}
+                                    >
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </>
+                        )}
+                    </select>
                 </label>
 
                 {loading ? (

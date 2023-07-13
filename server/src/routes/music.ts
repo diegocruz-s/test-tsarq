@@ -22,6 +22,8 @@ import jwt from 'jsonwebtoken'
 import { PlayMusicRepository } from '../repositories/music/prisma-playMusic'
 import { CountMusicRepository } from '../repositories/music/prisma-count'
 import { CountMusicController } from '../controllers/music/count/count'
+import { ReadCategoriesRepository } from '../repositories/music/prisma-readCategories'
+import { ReadCategoriesController } from '../controllers/music/readCategories/readCategories'
 export interface IdUser {
     id: string;
 }
@@ -177,7 +179,15 @@ routes.get('/', async (req,res) => {
 
 })
 
+routes.get('/categories', async (req, res) => {
+    const readCategoriesRepository = new ReadCategoriesRepository()
+    const readCategoriesController = new ReadCategoriesController(readCategoriesRepository)
 
+    const { body, statusCode } = await readCategoriesController.handle({})
+
+    return res.status(statusCode).json(body)
+
+})
 
 export {
     routes

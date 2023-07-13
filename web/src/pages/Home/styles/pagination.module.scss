@@ -9,18 +9,20 @@
     flex-wrap: wrap;
     gap: .5em;
     cursor: pointer;
+    font-size: 1.2em;
 
     .elementPag {
         width: 30px;
         height: 30px;
         display: grid;
         place-items: center;
-        border: 2px solid $colorComponents;
+        border: 2px solid #fff;
         border-radius: .5em;
         transition: .3s all;
 
         &:hover {
-            background-color: $colorComponents;
+            background-color: #fff;
+            color: $colorComponents;
         }
     }
 

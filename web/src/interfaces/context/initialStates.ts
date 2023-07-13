@@ -1,4 +1,4 @@
-import { Music } from "../musics/musics"
+import { Category, Music } from "../musics/musics"
 import { Playlist } from "../playlist/playlist"
 import { IUser } from "../user/user"
 
@@ -19,4 +19,5 @@ export interface IInitialStates {
     datasPlay?: { playlist: Playlist, musics: Music[] }
     playlists?: Playlist[]
     playlistName?: string
+    categories?: Category[]
 }

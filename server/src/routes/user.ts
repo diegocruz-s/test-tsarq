@@ -7,11 +7,12 @@ import { DeleteUserController } from '../controllers/user/delete/delete'
 import { UpdateUserController } from '../controllers/user/update/update'
 // Middlewares
 import { checkAuth } from '../helpers/checkAuth'
-import { musicUpload } from '../helpers/fileUpload'
 // Repositories
 import { CreateUserRepository } from '../repositories/user/create/prisma-create-user'
 import { DeleteUserRepository } from '../repositories/user/delete/prisma-delete-user'
 import { UpdateUserRepository } from '../repositories/user/update/prisma-update-user'
+import { ReadUserRepository } from '../repositories/user/read/read'
+import { ReadUserController } from '../controllers/user/read/read'
 
 const routes = Router()
 
@@ -28,6 +29,20 @@ routes.post('/', async (req,res) => {
 })
 
 routes.use(checkAuth)
+
+routes.get('/', async (req, res) => {
+    const readUserRepository = new ReadUserRepository()
+    const readUserController = new ReadUserController(readUserRepository)
+
+    const { body, statusCode } = await readUserController.handle({
+        params: {
+            userId: req.userId
+        }
+    })
+
+    return res.status(statusCode).json(body)
+
+})
 
 routes.patch('/:id', async (req, res) => {
     const updateUserRepository = new UpdateUserRepository()

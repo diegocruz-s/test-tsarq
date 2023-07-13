@@ -122,13 +122,18 @@ export const Playlist = () => {
 
                           <div 
                             onClick={() => {
-                              console.log('music', music.id, '\n', 'playlist', datasPlay.playlist.id)
-                              if(musicExec[countMusic].id !== music.id) {
+                              if(musicExec.length === 0) {
+                                dispatch(removeMusicPlaylist({
+                                  musicId: music.id,
+                                  playlistId: datasPlay.playlist.id
+                                }))
+                              } else if(musicExec[countMusic].id !== music.id) {
                                 dispatch(removeMusicPlaylist({
                                   musicId: music.id,
                                   playlistId: datasPlay.playlist.id
                                 }))
                               }
+
                             }}
                             className={styles.deleteMusicPlaylist}
                           >

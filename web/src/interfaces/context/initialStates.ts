@@ -20,4 +20,5 @@ export interface IInitialStates {
     playlists?: Playlist[]
     playlistName?: string
     categories?: Category[]
+    user?: IUser
 }

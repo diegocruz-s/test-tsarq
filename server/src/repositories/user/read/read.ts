@@ -3,7 +3,7 @@ import { IReadUserRepository } from "../../../interfaces/user/read/read";
 import { prisma } from "../../../database/prisma/prisma";
 
 export class ReadUserRepository implements IReadUserRepository {
-    async read(id: string): Promise<User> {
+    async read(id: string): Promise<Omit<User, 'password'>> {
         const user = await prisma.user.findUnique({
             where: {
                 id
@@ -12,7 +12,9 @@ export class ReadUserRepository implements IReadUserRepository {
 
         if(!user) throw new Error('User not found!')
 
-        return user
+        const { password, ...rest } = user
+
+        return rest
     }
 }
 

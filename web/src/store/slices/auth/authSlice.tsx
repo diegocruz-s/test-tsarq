@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { IInitialStates, DatasStorage } from '../../../interfaces/context/initialStates'
-import { loginService, registerService } from '../../services/auth/auth'
+import { loginService, logoutFecth, registerService } from '../../services/auth/auth'
 import { IAuth } from '../../../interfaces/user/auth'
 import { IUser } from '../../../interfaces/user/user'
 import { api } from '../../../utils/api'
@@ -48,6 +48,13 @@ export const register = createAsyncThunk(
     }
 )
 
+export const logout = createAsyncThunk(
+    'user/logout',
+    async (_, thunkAPI) => {
+        await logoutFecth()
+    }
+)
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -57,6 +64,7 @@ export const authSlice = createSlice({
             states.loading = false
             states.success = null
         },
+        
     },
     extraReducers(builder) {
         builder
@@ -78,6 +86,11 @@ export const authSlice = createSlice({
                 state.datasStorage = payloadDatas
                 api.defaults.headers.authorization = `Bearer ${payloadDatas.token}`
                 localStorage.setItem('datasStorage', JSON.stringify(payload))
+            })
+            .addCase(logout.fulfilled, (state, { payload }) => {
+                state.error = null
+                state.loading = false
+                state.datasStorage = undefined
             })
             // register
             .addCase(register.rejected, (state, { payload }) => {

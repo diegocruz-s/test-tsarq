@@ -9,6 +9,11 @@ type ReturnDatasRegister = {
     message: string
 } | string[]
 
+export const logoutFecth = async () => {
+    api.defaults.headers.authorization = ''
+    await localStorage.removeItem('datasStorage')
+}
+
 export const loginService = async (datas: IAuth): Promise<ReturnDatasLogin> => {
     try {
         const res: ReturnDatasLogin = await api.post('/auth', datas)

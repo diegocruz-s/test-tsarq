@@ -13,5 +13,5 @@ export interface IReadUserController {
 }
 
 export interface IReadUserRepository {
-    read (id: string): Promise<User>
+    read (id: string): Promise<Omit<User, 'password'>>
 }

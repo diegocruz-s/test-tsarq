@@ -18,7 +18,10 @@ export class CreateUserRepository implements ICreateUserRepository {
         }
 
         const newUser = await prisma.user.create({
-            data: user
+            data: {
+                ...user,
+                active_account: true
+            }
         })
 
         if(!newUser) {

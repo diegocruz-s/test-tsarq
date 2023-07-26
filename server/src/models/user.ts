@@ -5,4 +5,5 @@ export interface User {
     bios: string
     email: string
     password: string
+    active_account: boolean
 }

@@ -55,13 +55,7 @@ routes.get('/:musicId/:userId/:token', async (req, res, next) => {
             errors: ['Music not found!']
         })
 
-        // console.log('datasRepo:', datasMusic)
-        // console.log('musicId:', musicId)
-        // console.log('userId:', userId)
-        // console.log('token:', token)
-
         const musicPath = path.join(__dirname, `../../../server/src/uploads/${datasMusic.name}.mp3`)
-        // console.log('path:', musicPath)
         const musicStat = statSync(musicPath)
 
         let range = req.headers.range;
@@ -70,7 +64,6 @@ routes.get('/:musicId/:userId/:token', async (req, res, next) => {
         }
 
         const positions = rangeParser(musicStat.size, range, { combine: true }) as rangeParser.Ranges
-        // console.log('positions:', positions)
         const start = positions[0]?.start || 0;
         const end = positions[0]?.end || musicStat.size - 1;
         const chunkSize = (end - start) + 1;

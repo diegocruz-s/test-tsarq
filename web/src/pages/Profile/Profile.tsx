@@ -1,10 +1,12 @@
 import { FormEventHandler, useEffect, useState } from 'react'
 import styles from './styles/main.module.scss'
 import { useAppDispatch, useAppSelector } from '../../store/store'
-import { readUser, updateUser } from '../../store/slices/users/userSlice'
+import { deleteUser, readUser, updateUser } from '../../store/slices/users/userSlice'
 import { IUser } from '../../interfaces/user/user'
 import { logout } from '../../store/slices/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
+import { BsDoorOpenFill } from 'react-icons/bs'
+
 
 export const Profile = () => {
     const dispatch = useAppDispatch()
@@ -13,6 +15,7 @@ export const Profile = () => {
     const [datasFormUser, setDatasFormUser] = useState({
         bios: '',
     })
+    const [promptDeleteUser, setPromptDeleteUser] = useState(false)
 
     useEffect(() => {
         dispatch(readUser())
@@ -33,7 +36,7 @@ export const Profile = () => {
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if(user) {
+        if(user && (user.bios !== datasFormUser.bios)) {
             console.log({
                 bios: datasFormUser.bios,
                 userId: user.id
@@ -42,8 +45,13 @@ export const Profile = () => {
                 bios: datasFormUser.bios,
                 userId: user.id
             }))
-        }   
+        }else return
     }
+
+    // const handleDeleteUser = async () => {
+    //     await dispatch(deleteUser(user.id))
+    //     await dispatch(logout())    
+    // }
 
     console.log('datasFormUser:', datasFormUser)
     return (
@@ -93,27 +101,63 @@ export const Profile = () => {
                         />
                     </label>
 
-                    {loading ? (
-                        <button
-                            disabled
-                        >Wait...</button>
-                    ) : (
-                        <button
-                            type='submit'
-                        >Update</button>
-                    )}
+                    <label>
+                        {loading ? (
+                            <button
+                                disabled
+                            >Wait...</button>
+                        ) : (
+                            <button
+                                type='submit'
+                            >Update</button>
+                        )}
+                    </label>
                     
                 </form>
             )}
 
             <div className={styles.logout}>
-                <p
+                <BsDoorOpenFill
                     onClick={async () => {
                         await dispatch(logout())
                         navigate('/')
                     }}
-                >Sair...</p>
+                />
             </div>
+
+            <div className={styles.deleteAccount}>
+                {loading ? (
+                    <button disabled>
+                        Delete Account
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => setPromptDeleteUser(!promptDeleteUser)}
+                    >
+                        Delete Account
+                    </button>
+                )}
+                
+            </div>
+
+            {(promptDeleteUser && user) && (
+                <div className={styles.promptDeleteUser}>
+                    <h3>Delete Account?</h3>
+                    <div className={styles.btns}>
+                        <button
+                            className={styles.btnDelete}
+                            onClick={async () => {
+                                await dispatch(deleteUser(user.id))
+                                await dispatch(logout())  
+                            }}
+                        >V</button>
+                        <button
+                            className={styles.btnNotDelete}
+                            onClick={() => setPromptDeleteUser(false)}
+                        >X</button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

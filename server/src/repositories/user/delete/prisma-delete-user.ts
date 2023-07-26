@@ -11,11 +11,16 @@ export class DeleteUserRepository implements IDeleteUserRepository {
 
         if(!user) throw new Error('User not found!')
 
-        const deletedUser = await prisma.user.delete({
+        const deletedUser = await prisma.user.update({
             where: {
-                id
+                id ,
+            },
+            data: {
+                active_account: false
             }
         })
+
+        
 
         if(!deletedUser) throw new Error('Error deleted user!')
 

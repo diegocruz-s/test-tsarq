@@ -5,9 +5,12 @@ import { compareSync } from "bcrypt";
 
 export class AuthRepository implements IAuthRepository {
     async login(body: IAuthBody): Promise<Omit<User, 'password'>> {
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: {
-                email: body.email
+                AND: [
+                    { email: body.email },
+                    { active_account: true },
+                ]
             }
         })
 

@@ -2,6 +2,7 @@ $colorInput: #fff;
 $colorBorder: #4a39e7;
 $sizeMusic: 250px;
 $colorComponents: rgb(0, 0, 0);
+$backgroundBody: #252525;
 
 * {
     padding: 0;
@@ -11,7 +12,7 @@ $colorComponents: rgb(0, 0, 0);
 }
 body {
     min-height: 100vh;
-    background-color: #252525;
+    background-color: $backgroundBody;
     position: relative;
 }
 

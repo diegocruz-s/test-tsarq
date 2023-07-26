@@ -32,10 +32,10 @@ class AppController {
 
     routes () {
         this.app.use('/auth', routesAuth)
-        this.app.use('/user', routesUser) 
-        this.app.use('/music', routesMusic) 
-        this.app.use('/playlist', routesPlaylist) 
-        this.app.use('/music_playlist', routesMusicPlaylist) 
+        this.app.use('/user', routesUser)
+        this.app.use('/music', routesMusic)
+        this.app.use('/playlist', routesPlaylist)
+        this.app.use('/music_playlist', routesMusicPlaylist)
     }
 }
  

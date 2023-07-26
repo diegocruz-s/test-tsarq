@@ -1,0 +1,146 @@
+@import '../../../globalStyle/global.scss';
+.profile {
+    @extend .flexCenter;
+    flex-direction: column;
+    height: 50vh;
+    margin: auto;
+    margin-top: 2em;
+    width: 80vw;
+    position: relative;
+
+    h2 {
+        font-size: 2.5em;
+    }
+
+    form {
+        @extend .flexCenter;
+        flex-direction: column;
+        margin-top: 1em;
+        width: 100%;
+
+        label {
+            // padding: .5em;
+            width: 30%;
+            margin-bottom: .8em;
+            
+            input, button {
+                padding: .5em;
+                width: 100%;
+                border: 1px solid #fff;
+
+                &::placeholder {
+                    color: #e2e2e2;
+                }
+            }
+
+            input {
+                background-color: transparent;
+                color: #fff;
+            }
+
+            button {
+                background-color: #fff;
+                color: #000;
+                font-size: 1.1em;
+                cursor: pointer;
+                transition: .2s all;
+
+                &:hover {
+                    background-color: transparent;
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    .logout {
+        position: absolute;
+        bottom: 0;
+        right: 5em;
+
+        svg {
+            font-size: 2em;
+            cursor: pointer;
+
+            path {
+                transition: .2s all;
+                color: #c9c9c9;
+            }
+
+            &:hover {
+                path {
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    .deleteAccount {
+        position: absolute;
+        bottom: 0;
+        left: 5em;
+
+        button {
+            padding: .3em;
+            border: 1px solid #fff;
+            background-color: #000;
+            cursor: pointer;
+            transition: .2s all;
+            font-size: 1.1em;
+
+            &:hover {
+                background-color: #fff;
+                color: #000;
+            }
+        }
+    }
+
+    .promptDeleteUser {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,.9);
+        border-radius: .8em;
+        @extend .flexCenter;
+        flex-direction: column;
+        gap: 1.5em;
+
+        h3 {
+            font-size: 2em;
+        }
+
+        .btns {
+            display: flex;
+            gap: 2em;
+
+            button {
+                width: 40px;
+                height: 40px;
+                border-radius: .5em;
+                border: 1px solid #fff;
+                cursor: pointer;
+                transition: .2s all;
+                font-size: 1.1em;
+                transition: .2s all;
+            }        
+            .btnDelete {
+                background-color: #794141;
+
+                &:hover {
+                    background-color: #b32222;
+                    scale: 1.1;
+                }
+            }
+            .btnNotDelete {
+                background-color: #414979;
+
+                &:hover {
+                    background-color: #3122b3;
+                    scale: 1.1;
+                }
+            }
+        }   
+    }
+}

@@ -5,7 +5,9 @@ import { Playlist } from "../../../interfaces/playlist/playlist";
 import { Music } from "../../../interfaces/musics/musics";
 import { IDatasOperationMusicPlaylist } from "../music_playlist/musicPlaylistSlice";
 import { IUser } from '../../../interfaces/user/user'
-import { IUpdateUserDatas, readUserFetch, updateUserFetch } from "../../services/user/user";
+import { IUpdateUserDatas, deleteUserFetch, readUserFetch, updateUserFetch } from "../../services/user/user";
+import { api } from "../../../utils/api";
+import { logoutFecth } from "../../services/auth/auth";
 
 const initialState: IInitialStates = {
     error: null,
@@ -32,6 +34,18 @@ export const updateUser = createAsyncThunk(
     async (datas: IUpdateUserDatas, thunkAPI) => {
         resetStates()
         const response = await updateUserFetch(datas)
+        if('errors' in response) {
+            return thunkAPI.rejectWithValue(response.errors)
+        }
+
+        return response
+    }
+)
+
+export const deleteUser = createAsyncThunk(
+    'user/delete',
+    async (userId: string, thunkAPI) => {
+        const response = await deleteUserFetch(userId)
         if('errors' in response) {
             return thunkAPI.rejectWithValue(response.errors)
         }
@@ -90,6 +104,26 @@ export const userSlice = createSlice({
                     state.user!.bios = payloadDatas.user.bios
                     state.success = payloadDatas.message
                 }
+            }
+        })
+        .addCase(deleteUser.rejected, (state, { payload }) => {
+            state.error = payload as string[]
+            state.loading = false
+            state.success = null
+        })
+        .addCase(deleteUser.pending, (state) => {
+            state.error = null
+            state.loading = true
+            state.success = null
+        })
+        .addCase(deleteUser.fulfilled, (state, { payload }) => {
+            const payloadDatas = payload as { message: string }
+            state.error = null,
+            state.loading = false
+            console.log('PD:', payloadDatas)
+            if(payloadDatas) {
+                state.user = undefined
+                state.success = payloadDatas.message
             }
         })
     }

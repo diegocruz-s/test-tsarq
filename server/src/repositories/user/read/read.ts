@@ -4,9 +4,12 @@ import { prisma } from "../../../database/prisma/prisma";
 
 export class ReadUserRepository implements IReadUserRepository {
     async read(id: string): Promise<Omit<User, 'password'>> {
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
             where: {
-                id
+                AND: [
+                    { id },
+                    { active_account: true }
+                ]
             }
         })
 
@@ -17,4 +20,3 @@ export class ReadUserRepository implements IReadUserRepository {
         return rest
     }
 }
-

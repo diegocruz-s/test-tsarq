@@ -21,6 +21,21 @@ export interface IUpdateUserDatas {
     bios: string
 }
 
+export const deleteUserFetch = async (userId: string) => {
+    try {
+        const response = await api.delete(`/user/${userId}`)
+            .then (res => {
+                return res.data
+            })
+            .catch(err => {
+                return err.respose.data
+            })
+        return response
+    } catch (error: any) {
+        return [error.message]
+    }
+} 
+
 export const updateUserFetch = async (datas: IUpdateUserDatas) => {
     try {
         const response = await api.patch(`/user/${datas.userId}`, { bios: datas.bios })

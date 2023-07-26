@@ -17,6 +17,7 @@ model User {
   bios      String
   email     String      @unique
   password  String
+  active_account Boolean
   playlists Playlist[]
   musics    UserMusic[]
 
